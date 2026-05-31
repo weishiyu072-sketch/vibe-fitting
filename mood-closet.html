@@ -833,6 +833,44 @@
       font-size: 13px;
     }
 
+    .name-input {
+      width: 100%;
+      margin: 0 0 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font-weight: 760;
+      font-size: 14px;
+      line-height: 1.2;
+      outline: none;
+    }
+
+    .name-input:focus {
+      padding: 7px 9px;
+      border-radius: 11px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: inset 0 0 0 1px rgba(33,92,255,0.22);
+    }
+
+    .closet-editors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin: 8px 0 0;
+    }
+
+    .closet-select {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: 11px;
+      border: 1px solid rgba(20,20,20,0.08);
+      background: rgba(255,255,255,0.78);
+      color: #2f2a27;
+      font-size: 11px;
+      outline: none;
+    }
+
     .tags {
       display: flex;
       gap: 5px;
@@ -937,7 +975,11 @@
     }
 
     .card-back .combo {
-      color: rgba(255,255,255,0.74);
+      color: rgba(20,20,20,0.72);
+    }
+
+    .card-back .combo strong {
+      color: rgba(20,20,20,0.88);
     }
 
     .loading {
@@ -1049,7 +1091,7 @@
     }
 
     .outfit-stage .style-card {
-      min-height: 660px;
+      min-height: 720px;
       transform: rotateX(var(--tiltX, 0deg)) rotateY(var(--tiltY, 0deg));
       transition: transform 650ms cubic-bezier(.2,.75,.2,1);
       will-change: transform;
@@ -1096,21 +1138,20 @@
 
     .flat-lay {
       position: relative;
-      height: 450px;
-      margin: 20px 0 22px;
-      border-radius: 34px;
+      height: 390px;
+      margin: 16px 0 18px;
+      border-radius: 30px;
       display: grid;
-      grid-template-columns: 1fr 1.15fr 1fr;
-      grid-template-rows: 1fr 1fr 0.78fr;
+      grid-template-columns: minmax(0, 1.55fr) minmax(140px, 0.78fr);
+      grid-template-rows: 0.72fr 1.28fr;
       grid-template-areas:
-        "top bottom outer"
-        "bag bottom accessory"
-        "bag shoes shoes";
-      gap: 18px;
-      padding: 28px;
-      background:
-        linear-gradient(90deg, #f7f7fb 0 20%, #fff 20% 80%, #f7f3fb 80% 100%);
-      box-shadow: inset 0 0 0 1px rgba(20,20,20,0.04);
+        "top side"
+        "bottom side";
+      column-gap: 34px;
+      row-gap: 12px;
+      padding: 30px 36px;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(20,20,20,0.035);
       overflow: hidden;
     }
 
@@ -1118,13 +1159,22 @@
       position: relative;
       min-width: 0;
       min-height: 0;
-      padding: 10px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(20,20,20,0.045);
+      background: transparent;
       filter: drop-shadow(0 18px 20px rgba(20,20,20,0.12));
       transition: transform 280ms ease, filter 280ms ease;
-      overflow: hidden;
+      overflow: visible;
+    }
+
+    .flat-lay .lay-piece {
+      inset: auto;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      border: 0;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
     }
 
     .lay-piece:hover {
@@ -1140,17 +1190,48 @@
       background-size: var(--bgSize, cover);
       background-position: var(--bgPos, center);
       background-repeat: no-repeat;
-      border-radius: 18px;
       mix-blend-mode: multiply;
     }
 
-    .lay-piece.top { grid-area: top; --r: -2deg; }
-    .lay-piece.outer { grid-area: outer; --r: 3deg; }
-    .lay-piece.bottom { grid-area: bottom; --r: 1deg; }
-    .lay-piece.shoes { grid-area: shoes; --r: -4deg; }
-    .lay-piece.bag { grid-area: bag; --r: 2deg; }
-    .lay-piece.accessory { grid-area: outer; --r: 5deg; }
-    .lay-piece.accessory.extra { grid-area: accessory; --r: -5deg; }
+    .lay-piece.top {
+      grid-area: top;
+      width: 100%;
+      height: 100%;
+      --r: -1deg;
+    }
+
+    .lay-piece.outer {
+      grid-area: top;
+      width: 88%;
+      height: 90%;
+      justify-self: center;
+      --r: 2deg;
+    }
+
+    .lay-piece.bottom {
+      grid-area: bottom;
+      width: 100%;
+      height: 100%;
+      align-self: end;
+      --r: 0deg;
+    }
+
+    .flat-side {
+      grid-area: side;
+      display: grid;
+      grid-template-rows: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .flat-side .lay-piece {
+      width: 100%;
+      height: 100%;
+    }
+
+    .lay-piece.accessory { --r: 3deg; }
+    .lay-piece.bag { --r: -2deg; }
+    .lay-piece.shoes { --r: 1deg; }
 
     .empty-lay {
       position: absolute;
@@ -1308,7 +1389,7 @@
       }
 
       .outfit-stage .style-card {
-        min-height: 610px;
+        min-height: 650px;
       }
 
       .outfit-stage .card-face {
@@ -1316,24 +1397,19 @@
       }
 
       .flat-lay {
-        height: 360px;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(3, 1fr);
+        height: 340px;
+        grid-template-columns: 1.25fr 0.75fr;
+        grid-template-rows: 0.88fr 1.2fr;
         grid-template-areas:
-          "top outer"
-          "bottom bottom"
-          "bag shoes";
-        gap: 10px;
-        padding: 16px;
+          "top side"
+          "bottom side";
+        column-gap: 16px;
+        row-gap: 8px;
+        padding: 20px;
       }
 
-      .lay-piece {
-        padding: 7px;
-        border-radius: 18px;
-      }
-
-      .lay-piece.accessory {
-        grid-area: outer;
+      .flat-side {
+        gap: 8px;
       }
 
       .palette-labeled {
@@ -1501,270 +1577,6 @@
 
   <div class="toast" id="toast">Saved</div>
 
-  <script type="application/disabled">
-    const state = {
-      mood: "Confident",
-      weather: "Sunny",
-      occasion: "Cafe",
-      avatar: "Virtual model",
-      currentLook: 0,
-      closet: [
-        { name: "Ivory Sculpt Top", category: "Top", color: "Ivory", tags: ["Minimal", "Soft"], hex: "#f4efe8", type: "top" },
-        { name: "Charcoal Fluid Trouser", category: "Bottom", color: "Charcoal", tags: ["Work", "Clean"], hex: "#2d3444", type: "bottom" },
-        { name: "Silver Tech Coat", category: "Outer", color: "Silver", tags: ["Future", "Rain"], hex: "#cfd5df", type: "outer" },
-        { name: "Black Low Sneaker", category: "Shoes", color: "Black", tags: ["Street", "Daily"], hex: "#111111", type: "shoes" },
-        { name: "Lavender Mesh Top", category: "Top", color: "Lavender", tags: ["Dreamy", "Date"], hex: "#b7a6ff", type: "top" },
-        { name: "Pink Glass Bag", category: "Accessory", color: "Pink", tags: ["Accent", "Cafe"], hex: "#ffd5df", type: "accessory" }
-      ]
-    };
-
-    const styleDeck = [
-      {
-        name: "Electric Minimal Muse",
-        keywords: ["Clean lines", "Silver detail", "Soft power"],
-        combo: "Cropped ivory knit, fluid charcoal trousers, structured silver outer layer, low black shoes.",
-        desc: "A precise but relaxed outfit that turns confidence into clean shape, cool color, and quiet impact.",
-        manifesto: "Dress like your day already knows your name.",
-        colors: ["#111111", "#f4efe8", "#b7a6ff", "#215cff"],
-        fit: { top: "#f4efe8", bottom: "#2d3444", outer: "#cfd5df", shoe: "#111111" }
-      },
-      {
-        name: "Soft Street Ritual",
-        keywords: ["Oversized", "Cafe cool", "Tender edge"],
-        combo: "Lavender mesh layer, soft gray cargo skirt, black sneakers, glossy pink bag.",
-        desc: "Streetwear softened by airy color and touchable textures, made for slow walks and good lighting.",
-        manifesto: "Let softness take up space.",
-        colors: ["#b7a6ff", "#dfe3ea", "#141414", "#ffd5df"],
-        fit: { top: "#b7a6ff", bottom: "#8c929d", outer: "#f2f2f2", shoe: "#111111" }
-      },
-      {
-        name: "Moonlit Campus Layer",
-        keywords: ["Layered", "Smart casual", "Weather-aware"],
-        combo: "Cream shirt, navy pleated bottom, windproof silver jacket, polished loafers.",
-        desc: "A practical campus look with a cinematic surface: clean, bright, and ready to move.",
-        manifesto: "Function can still feel like a scene.",
-        colors: ["#f7f3ee", "#1d2f65", "#dfe3ea", "#0f0f10"],
-        fit: { top: "#fffaf1", bottom: "#1d2f65", outer: "#dfe3ea", shoe: "#0f0f10" }
-      },
-      {
-        name: "Velvet Night Signal",
-        keywords: ["Bold", "After dark", "Blue flash"],
-        combo: "Black fitted base, deep blue long coat, silver accessories, sharp platform shoes.",
-        desc: "A night-out look with one electric highlight and a clean silhouette, dramatic without clutter.",
-        manifesto: "Arrive like a highlight, leave like a memory.",
-        colors: ["#0d0d0f", "#215cff", "#bfc5d0", "#ffd5df"],
-        fit: { top: "#111111", bottom: "#171a22", outer: "#215cff", shoe: "#0d0d0f" }
-      }
-    ];
-
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
-
-    function setGroup(group, value) {
-      state[group] = value;
-      document.getElementById(`${group}Value`).textContent = value;
-      document.getElementById(`fit${group[0].toUpperCase() + group.slice(1)}`).textContent = value;
-      document.querySelectorAll(`[data-group="${group}"] button`).forEach((button) => {
-        button.classList.toggle("active", button.dataset.value === value);
-      });
-    }
-
-    function renderCloset() {
-      const grid = $("#closetGrid");
-      grid.innerHTML = "";
-      state.closet.forEach((item, index) => {
-        const shape = item.type === "bottom" ? "bottom-shape" : item.type === "shoes" ? "shoes-shape" : item.type === "accessory" ? "accessory-shape" : "";
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.draggable = true;
-        card.dataset.index = index;
-        card.innerHTML = `
-          <div class="item-art" style="--itemColor:${item.hex}">
-            <div class="garment ${shape}" style="--garment:${item.hex}"></div>
-          </div>
-          <div class="item-info">
-            <strong>${item.name}</strong>
-            <div class="tags">
-              <span class="tag">${item.category}</span>
-              <span class="tag">${item.color}</span>
-              ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-            </div>
-          </div>
-        `;
-        card.addEventListener("dragstart", (event) => {
-          event.dataTransfer.setData("text/plain", index);
-        });
-        grid.appendChild(card);
-      });
-      $("#closetCount").textContent = state.closet.length;
-    }
-
-    function applyGarment(item) {
-      const avatar = $("#avatar");
-      if (item.type === "top") avatar.style.setProperty("--topColor", item.hex);
-      if (item.type === "bottom") avatar.style.setProperty("--bottomColor", item.hex);
-      if (item.type === "outer") {
-        avatar.style.setProperty("--outerColor", item.hex);
-        avatar.style.setProperty("--outerOn", "0.88");
-      }
-      if (item.type === "shoes") avatar.style.setProperty("--shoeColor", item.hex);
-      if (item.type === "accessory") showToast(`${item.name} added as accent`);
-    }
-
-    function generateLook(offset = 0) {
-      const loading = $("#loading");
-      loading.classList.add("active");
-      $("#lookStatus").textContent = "Styling...";
-      const seed = state.mood.length + state.weather.length + state.occasion.length + state.currentLook + offset;
-      const look = styleDeck[seed % styleDeck.length];
-      setTimeout(() => {
-        $("#styleName").textContent = look.name;
-        $("#manifestoTitle").textContent = look.manifesto;
-        $("#descriptionText").textContent = look.desc;
-        $("#comboText").textContent = look.combo;
-        $("#keywordTags").innerHTML = look.keywords.map((tag) => `<span class="tag">${tag}</span>`).join("");
-        $("#palette").innerHTML = look.colors.map((color) => `<span style="background:${color}"></span>`).join("");
-        const avatar = $("#avatar");
-        avatar.style.setProperty("--topColor", look.fit.top);
-        avatar.style.setProperty("--bottomColor", look.fit.bottom);
-        avatar.style.setProperty("--outerColor", look.fit.outer);
-        avatar.style.setProperty("--shoeColor", look.fit.shoe);
-        avatar.style.setProperty("--outerOn", "0.86");
-        $("#avatarWrap").style.animation = "none";
-        $("#avatarWrap").offsetHeight;
-        $("#avatarWrap").style.animation = "";
-        $("#lookStatus").textContent = "Look generated";
-        loading.classList.remove("active");
-        showToast(`${look.name} generated`);
-      }, 920);
-    }
-
-    function showToast(message) {
-      const toast = $("#toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
-    }
-
-    $$("[data-group]").forEach((groupEl) => {
-      groupEl.addEventListener("click", (event) => {
-        const button = event.target.closest("button[data-value]");
-        if (!button) return;
-        setGroup(groupEl.dataset.group, button.dataset.value);
-      });
-    });
-
-    $$(".mode").forEach((button) => {
-      button.addEventListener("click", () => {
-        $$(".mode").forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
-        state.avatar = button.dataset.avatar;
-        $("#avatarValue").textContent = state.avatar;
-        $("#cameraPreview").classList.toggle("active", state.avatar === "Camera capture");
-        showToast(`${state.avatar} selected`);
-      });
-    });
-
-    $("#skinSwatches").addEventListener("click", (event) => {
-      const swatch = event.target.closest(".swatch");
-      if (!swatch) return;
-      $$("#skinSwatches .swatch").forEach((item) => item.classList.remove("active"));
-      swatch.classList.add("active");
-      $("#avatar").style.setProperty("--skin", swatch.dataset.skin);
-    });
-
-    $("#hairStyle").addEventListener("change", (event) => {
-      $("#hair").className = `hair ${event.target.value}`;
-    });
-
-    $("#bodyShape").addEventListener("change", (event) => {
-      const map = {
-        balanced: ["154px", "144px"],
-        slim: ["132px", "126px"],
-        soft: ["166px", "158px"],
-        strong: ["180px", "154px"]
-      };
-      const [torso, hip] = map[event.target.value];
-      $("#avatar").style.setProperty("--torso", torso);
-      $("#avatar").style.setProperty("--hip", hip);
-    });
-
-    $("#pose").addEventListener("change", (event) => {
-      const avatar = $("#avatar");
-      const map = {
-        neutral: ["8deg", "-8deg"],
-        lean: ["-2deg", "-18deg"],
-        motion: ["20deg", "-28deg"]
-      };
-      const [left, right] = map[event.target.value];
-      avatar.style.setProperty("--armRotateLeft", left);
-      avatar.style.setProperty("--armRotateRight", right);
-    });
-
-    $("#uploadInput").addEventListener("change", (event) => {
-      const files = [...event.target.files];
-      const types = ["top", "bottom", "outer", "shoes", "accessory"];
-      files.forEach((file, index) => {
-        const type = types[(state.closet.length + index) % types.length];
-        const colorPool = ["#111111", "#f4efe8", "#b7a6ff", "#215cff", "#ffd5df", "#cfd5df"];
-        state.closet.unshift({
-          name: file.name.replace(/\.[^/.]+$/, "").slice(0, 24) || "Uploaded Piece",
-          category: type[0].toUpperCase() + type.slice(1),
-          color: "Detected",
-          tags: ["Uploaded", "AI mock"],
-          hex: colorPool[(state.closet.length + index) % colorPool.length],
-          type
-        });
-      });
-      renderCloset();
-      showToast(`${files.length} closet item${files.length === 1 ? "" : "s"} added`);
-      event.target.value = "";
-    });
-
-    $("#avatarStage").addEventListener("dragover", (event) => {
-      event.preventDefault();
-      $("#avatarStage").classList.add("drag-over");
-    });
-
-    $("#avatarStage").addEventListener("dragleave", () => {
-      $("#avatarStage").classList.remove("drag-over");
-    });
-
-    $("#avatarStage").addEventListener("drop", (event) => {
-      event.preventDefault();
-      $("#avatarStage").classList.remove("drag-over");
-      const item = state.closet[Number(event.dataTransfer.getData("text/plain"))];
-      if (!item) return;
-      applyGarment(item);
-      showToast(`${item.name} snapped to avatar`);
-    });
-
-    $("#generateBtn").addEventListener("click", () => generateLook());
-
-    $$(".studio-actions .ghost").forEach((button) => {
-      button.addEventListener("click", () => {
-        const action = button.dataset.action;
-        if (action === "regenerate" || action === "another") {
-          state.currentLook += 1;
-          generateLook(1);
-          return;
-        }
-        const labels = {
-          save: "Look saved to closet",
-          download: "Download mockup prepared",
-          share: "Share card copied as prototype link"
-        };
-        showToast(labels[action]);
-      });
-    });
-
-    $("#styleCard").addEventListener("click", () => {
-      $("#styleCard").classList.toggle("flipped");
-    });
-
-    renderCloset();
-  </script>
   <script>
     const state = {
       mood: "Confident",
@@ -1826,6 +1638,12 @@
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
     const groupOrder = ["TOP", "BOTTOM", "SHOES", "ACCESSORIES"];
+    const categoryMap = {
+      TOP: ["Shirts", "T-shirts", "Jackets"],
+      BOTTOM: ["Pants", "Shorts"],
+      SHOES: ["Loafers", "Sneakers"],
+      ACCESSORIES: ["Bags", "Glasses", "Caps", "Necklaces", "Watches", "Belts", "Wallets"]
+    };
 
     function setGroup(group, value) {
       state[group] = value;
@@ -1842,6 +1660,18 @@
       return `--image:url('${item.src}');--bgSize:${item.bgSize || "cover"};--bgPos:${item.bgPos || "center"};`;
     }
 
+    function categoryOptions(group, selected) {
+      return (categoryMap[group] || categoryMap.ACCESSORIES).map((category) => {
+        return `<option value="${category}" ${category === selected ? "selected" : ""}>${category}</option>`;
+      }).join("");
+    }
+
+    function groupOptions(selected) {
+      return groupOrder.map((group) => {
+        return `<option value="${group}" ${group === selected ? "selected" : ""}>${group}</option>`;
+      }).join("");
+    }
+
     function renderCloset() {
       const grid = $("#closetGrid");
       grid.innerHTML = "";
@@ -1856,17 +1686,25 @@
             <div class="garment-photo" style="${imageStyle(item)}"></div>
           </div>
           <div class="item-info">
-            <strong>${item.name}</strong>
+            <input class="name-input" aria-label="Edit name for ${item.name}" value="${item.name}" />
             <div class="tags">
               <span class="tag">${item.group}</span>
               <span class="tag">${item.category}</span>
               <span class="tag">${item.color}</span>
               ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
             </div>
+            <div class="closet-editors">
+              <select class="closet-select group-select" aria-label="Edit group for ${item.name}">
+                ${groupOptions(item.group)}
+              </select>
+              <select class="closet-select category-select" aria-label="Edit category for ${item.name}">
+                ${categoryOptions(item.group, item.category)}
+              </select>
+            </div>
           </div>
         `;
         card.addEventListener("dragstart", (event) => {
-          if (event.target.closest(".delete-item")) {
+          if (event.target.closest(".delete-item") || event.target.closest(".closet-editors") || event.target.closest(".name-input")) {
             event.preventDefault();
             return;
           }
@@ -1875,6 +1713,26 @@
         card.querySelector(".delete-item").addEventListener("click", (event) => {
           event.stopPropagation();
           deleteClosetItem(index);
+        });
+        card.querySelector(".name-input").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemName(index, event.target.value);
+        });
+        card.querySelector(".name-input").addEventListener("input", (event) => {
+          event.stopPropagation();
+          updateClosetItemNameLive(index, event.target.value);
+        });
+        card.querySelector(".name-input").addEventListener("keydown", (event) => {
+          event.stopPropagation();
+          if (event.key === "Enter") event.target.blur();
+        });
+        card.querySelector(".group-select").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemGroup(index, event.target.value);
+        });
+        card.querySelector(".category-select").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemCategory(index, event.target.value);
         });
         grid.appendChild(card);
       });
@@ -1885,12 +1743,57 @@
     function deleteClosetItem(index) {
       const [removed] = state.closet.splice(index, 1);
       if (!removed) return;
-      Object.keys(state.outfit).forEach((slot) => {
-        if (state.outfit[slot] === removed) state.outfit[slot] = null;
-      });
+      clearOutfitReference(removed);
       renderCloset();
       renderFlatLay();
       showToast(`${removed.name} deleted from closet`);
+    }
+
+    function clearOutfitReference(item) {
+      Object.keys(state.outfit).forEach((slot) => {
+        if (state.outfit[slot] === item) state.outfit[slot] = null;
+      });
+      if (Array.isArray(state.outfit.accessories)) {
+        state.outfit.accessories = state.outfit.accessories.filter((piece) => piece !== item);
+      }
+    }
+
+    function updateClosetItemGroup(index, group) {
+      const item = state.closet[index];
+      if (!item) return;
+      item.group = group;
+      item.category = categoryMap[group][0];
+      clearOutfitReference(item);
+      renderCloset();
+      renderFlatLay();
+      showToast(`${item.name} moved to ${group}`);
+    }
+
+    function updateClosetItemCategory(index, category) {
+      const item = state.closet[index];
+      if (!item) return;
+      item.category = category;
+      clearOutfitReference(item);
+      renderCloset();
+      renderFlatLay();
+      showToast(`${item.name} set as ${category}`);
+    }
+
+    function updateClosetItemName(index, name) {
+      const item = state.closet[index];
+      if (!item) return;
+      const nextName = name.trim() || item.name;
+      item.name = nextName;
+      renderCloset();
+      renderFlatLay();
+      showToast(`Renamed to ${nextName}`);
+    }
+
+    function updateClosetItemNameLive(index, name) {
+      const item = state.closet[index];
+      if (!item) return;
+      item.name = name || item.name;
+      renderOutfitList();
     }
 
     function renderInventory() {
@@ -1908,6 +1811,13 @@
         const pool = preferred.length ? preferred : items;
         return pool[(seed + state.currentLook + pool.length) % pool.length];
       };
+      const pickMany = (group, limit, preference = () => true) => {
+        const items = byGroup(group);
+        const preferred = items.filter(preference);
+        const pool = preferred.length ? preferred : items;
+        const start = pool.length ? seed % pool.length : 0;
+        return pool.slice(start).concat(pool.slice(0, start)).slice(0, limit);
+      };
       const needsJacket = state.weather === "Cold" || state.weather === "Rainy" || state.occasion === "Night Out";
       return {
         top: pick("TOP", (item) => needsJacket ? item.category === "Jackets" : item.category !== "Jackets"),
@@ -1915,12 +1825,13 @@
         bottom: pick("BOTTOM", (item) => state.weather === "Sunny" ? item.category === "Shorts" : item.category === "Pants"),
         shoes: pick("SHOES"),
         bag: pick("ACCESSORIES", (item) => item.category === "Bags"),
-        accessory: pick("ACCESSORIES", (item) => item.category !== "Bags")
+        accessory: pick("ACCESSORIES", (item) => item.category !== "Bags"),
+        accessories: pickMany("ACCESSORIES", 4, (item) => item.category !== "Bags")
       };
     }
 
     function renderOutfitList() {
-      const items = [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes, state.outfit.bag, state.outfit.accessory].filter(Boolean);
+      const items = [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes, state.outfit.bag, ...(state.outfit.accessories || [])].filter(Boolean);
       $("#outfitList").innerHTML = items.map((item, index) => {
         const number = String(index + 1).padStart(2, "0");
         return `<li data-index="${number}">${item.name}</li>`;
@@ -1933,9 +1844,9 @@
         ["top", state.outfit.top],
         ["outer", state.outfit.outer],
         ["bottom", state.outfit.bottom],
-        ["shoes", state.outfit.shoes],
         ["bag", state.outfit.bag],
-        ["accessory", state.outfit.accessory]
+        ...(state.outfit.accessories || []).map((item) => ["accessory", item]),
+        ["shoes", state.outfit.shoes]
       ].filter(([, item]) => item);
 
       if (!pieces.length) {
@@ -1944,12 +1855,16 @@
         return;
       }
 
-      flatLay.innerHTML = pieces.map(([slot, item], index) => {
-        const extra = slot === "accessory" && index > 4 ? " extra" : "";
-        return `<div class="lay-piece ${slot}${extra}" title="${item.name}">
+      const mainPieces = pieces.filter(([slot]) => slot === "top" || slot === "outer" || slot === "bottom");
+      const sidePieces = pieces.filter(([slot]) => slot !== "top" && slot !== "outer" && slot !== "bottom");
+      flatLay.innerHTML = [
+        ...mainPieces.map(([slot, item]) => `<div class="lay-piece ${slot}" title="${item.name}">
           <div class="piece-image" style="${imageStyle(item)}"></div>
-        </div>`;
-      }).join("");
+        </div>`),
+        `<div class="flat-side">${sidePieces.map(([slot, item]) => `<div class="lay-piece ${slot}" title="${item.name}">
+          <div class="piece-image" style="${imageStyle(item)}"></div>
+        </div>`).join("")}</div>`
+      ].join("");
       renderOutfitList();
     }
 
@@ -1959,7 +1874,10 @@
       else if (item.group === "BOTTOM") state.outfit.bottom = item;
       else if (item.group === "SHOES") state.outfit.shoes = item;
       else if (item.group === "ACCESSORIES" && item.category === "Bags") state.outfit.bag = item;
-      else if (item.group === "ACCESSORIES") state.outfit.accessory = item;
+      else if (item.group === "ACCESSORIES") {
+        state.outfit.accessory = item;
+        state.outfit.accessories = [item, ...(state.outfit.accessories || []).filter((piece) => piece !== item)].slice(0, 4);
+      }
       renderFlatLay();
       showToast(`${item.name} added to outfit board`);
     }
