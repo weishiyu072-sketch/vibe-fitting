@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Closet - Interactive Outfit Board Prototype</title>
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --panel: rgba(255, 255, 255, 0.62);
+      --panel-strong: rgba(255, 255, 255, 0.84);
+      --ink: #141414;
+      --muted: #77736f;
+      --line: rgba(20, 20, 20, 0.1);
+      --lavender: #b7a6ff;
+      --blue: #215cff;
+      --pink: #ffd5df;
+      --silver: #dfe3ea;
+      --shadow: 0 24px 80px rgba(35, 31, 28, 0.13);
+      --soft-shadow: 0 14px 40px rgba(35, 31, 28, 0.1);
+      --radius: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 213, 223, 0.76), transparent 30%),
+        radial-gradient(circle at 88% 6%, rgba(183, 166, 255, 0.64), transparent 31%),
+        radial-gradient(circle at 50% 95%, rgba(33, 92, 255, 0.13), transparent 40%),
+        linear-gradient(135deg, #fbf8f3 0%, #f3eee8 46%, #f8f8fb 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent 70%);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1720px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      color: white;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #111, #3f5dff 52%, #c2b6ff);
+      box-shadow: 0 16px 36px rgba(33, 92, 255, 0.24);
+      letter-spacing: -0.05em;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 500;
+    }
+
+    .tagline {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--soft-shadow);
+      color: #393532;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 18px rgba(33, 92, 255, 0.85);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(292px, 360px) minmax(420px, 1fr) minmax(300px, 390px);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      border: 1px solid rgba(255,255,255,0.72);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .left-panel,
+    .right-panel {
+      padding: 18px;
+      max-height: calc(100vh - 132px);
+      overflow: auto;
+    }
+
+    .section {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:first-child {
+      padding-top: 0;
+    }
+
+    .section:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #494542;
+      font-weight: 760;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 720;
+    }
+
+    .micro {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .option-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .chip {
+      position: relative;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(20,20,20,0.08);
+      color: #282421;
+      background: rgba(255,255,255,0.56);
+      transition: transform 220ms ease, background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+      overflow: hidden;
+    }
+
+    .chip:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(40, 36, 33, 0.1);
+    }
+
+    .chip.active {
+      color: white;
+      border-color: rgba(33, 92, 255, 0.2);
+      background: linear-gradient(135deg, #111 0%, #244fff 64%, #ad9aff 100%);
+      box-shadow: 0 16px 34px rgba(33, 92, 255, 0.24);
+    }
+
+    .weather-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .weather {
+      min-height: 70px;
+      padding: 9px 6px;
+      border-radius: 18px;
+      border: 1px solid rgba(20,20,20,0.08);
+      background: rgba(255,255,255,0.54);
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      color: #34302d;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    }
+
+    .weather:hover {
+      transform: translateY(-3px);
+    }
+
+    .weather.active {
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(223,227,234,0.78));
+      box-shadow: inset 0 0 0 1px rgba(33,92,255,0.25), 0 12px 28px rgba(33, 92, 255, 0.13);
+    }
+
+    .weather .icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .weather span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .mode {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 19px;
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(20,20,20,0.08);
+      color: var(--ink);
+      text-align: left;
+      transition: 220ms ease;
+    }
+
+    .mode:hover,
+    .mode.active {
+      transform: translateX(4px);
+      background: rgba(255,255,255,0.86);
+      box-shadow: 0 16px 30px rgba(35, 31, 28, 0.1);
+    }
+
+    .mode-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--silver), white);
+      color: #1e1a18;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,0.8);
+      box-shadow: 0 0 0 1px rgba(20,20,20,0.08);
+      transition: 180ms ease;
+    }
+
+    .swatch.active {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 2px var(--blue), 0 10px 20px rgba(33, 92, 255, 0.2);
+    }
+
+    select {
+      width: 100%;
+      appearance: none;
+      padding: 11px 13px;
+      border: 1px solid rgba(20,20,20,0.08);
+      border-radius: 15px;
+      background: rgba(255,255,255,0.62);
+      color: #2f2a27;
+      outline: none;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 16px;
+      padding: 15px 18px;
+      border-radius: 999px;
+      color: white;
+      font-weight: 780;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #111 0%, #215cff 58%, #b7a6ff 100%);
+      box-shadow: 0 18px 42px rgba(33,92,255,0.28);
+      transition: transform 220ms ease, filter 220ms ease;
+    }
+
+    .primary:hover {
+      transform: translateY(-3px);
+      filter: saturate(1.12);
+    }
+
+    .studio {
+      position: relative;
+      min-height: calc(100vh - 132px);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 18px;
+    }
+
+    .studio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+      padding-bottom: 12px;
+    }
+
+    .studio-title p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.45;
+    }
+
+    .avatar-stage {
+      position: relative;
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      border-radius: 30px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), rgba(255,255,255,0.18) 46%, rgba(183,166,255,0.13));
+      background-size: 34px 34px, 34px 34px, 100% 100%;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .avatar-stage::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(33,92,255,0.16), transparent 62%);
+      filter: blur(8px);
+      transform: translateY(90px);
+      animation: aura 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes aura {
+      from { transform: translate(-18px, 80px) scale(0.95); }
+      to { transform: translate(20px, 98px) scale(1.06); }
+    }
+
+    .camera-preview {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 180px;
+      height: 118px;
+      padding: 12px;
+      border-radius: 22px;
+      background: rgba(16,18,23,0.82);
+      color: rgba(255,255,255,0.9);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: 260ms ease;
+    }
+
+    .camera-preview.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scan-line {
+      height: 42px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 14px;
+      margin-top: 10px;
+      background:
+        linear-gradient(180deg, transparent, rgba(183,166,255,0.28), transparent),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 9px);
+      animation: scan 1.8s linear infinite;
+    }
+
+    @keyframes scan {
+      from { background-position: 0 -44px, 0 0; }
+      to { background-position: 0 44px, 0 0; }
+    }
+
+    .drop-hint {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      color: var(--muted);
+      font-size: 12px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: min(340px, 72vw);
+      height: 530px;
+      filter: drop-shadow(0 36px 45px rgba(35,31,28,0.18));
+      animation: avatarIn 700ms ease both;
+    }
+
+    @keyframes avatarIn {
+      from { opacity: 0; transform: translateY(26px) scale(0.97); filter: blur(8px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0) drop-shadow(0 36px 45px rgba(35,31,28,0.18)); }
+    }
+
+    .avatar {
+      position: absolute;
+      inset: 0;
+    }
+
+    .head {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      width: 88px;
+      height: 104px;
+      transform: translateX(-50%);
+      border-radius: 44% 44% 48% 48%;
+      background: var(--skin, #d8a982);
+      box-shadow: inset -12px -14px 24px rgba(78,45,25,0.12);
+      z-index: 6;
+    }
+
+    .hair {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      width: 108px;
+      height: 78px;
+      transform: translateX(-50%);
+      border-radius: 54px 54px 36px 36px;
+      background: var(--hair, #26201d);
+      z-index: 7;
+      transition: 260ms ease;
+    }
+
+    .hair.bob { height: 116px; border-radius: 50px 50px 42px 42px; }
+    .hair.pixie { width: 96px; height: 54px; border-radius: 50px 50px 24px 24px; }
+    .hair.waves { width: 132px; height: 130px; border-radius: 62px 62px 50px 50px; }
+
+    .neck {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      width: 36px;
+      height: 50px;
+      transform: translateX(-50%);
+      background: var(--skin, #d8a982);
+      border-radius: 0 0 18px 18px;
+      z-index: 3;
+    }
+
+    .torso {
+      position: absolute;
+      top: 148px;
+      left: 50%;
+      width: var(--torso, 154px);
+      height: 182px;
+      transform: translateX(-50%);
+      border-radius: 42px 42px 26px 26px;
+      background: var(--topColor, linear-gradient(135deg, #e8e3da, #ffffff));
+      z-index: 4;
+      transition: 300ms ease;
+    }
+
+    .outer {
+      position: absolute;
+      top: 142px;
+      left: 50%;
+      width: calc(var(--torso, 154px) + 64px);
+      height: 210px;
+      transform: translateX(-50%);
+      border-radius: 52px 52px 36px 36px;
+      border: 20px solid var(--outerColor, rgba(19,22,28,0.95));
+      border-bottom-width: 28px;
+      background: transparent;
+      opacity: var(--outerOn, 0.18);
+      z-index: 5;
+      pointer-events: none;
+      transition: 300ms ease;
+    }
+
+    .arm {
+      position: absolute;
+      top: 162px;
+      width: 42px;
+      height: 190px;
+      border-radius: 24px;
+      background: var(--skin, #d8a982);
+      z-index: 2;
+      transform-origin: top center;
+    }
+
+    .arm.left { left: 70px; transform: rotate(var(--armRotateLeft, 8deg)); }
+    .arm.right { right: 70px; transform: rotate(var(--armRotateRight, -8deg)); }
+
+    .bottom {
+      position: absolute;
+      top: 310px;
+      left: 50%;
+      width: var(--hip, 144px);
+      height: 116px;
+      transform: translateX(-50%);
+      border-radius: 22px 22px 50px 50px;
+      background: var(--bottomColor, #2d3444);
+      z-index: 4;
+      transition: 300ms ease;
+    }
+
+    .leg {
+      position: absolute;
+      top: 404px;
+      width: 48px;
+      height: 104px;
+      border-radius: 26px 26px 16px 16px;
+      background: var(--skin, #d8a982);
+      z-index: 2;
+    }
+
+    .leg.left { left: 121px; }
+    .leg.right { right: 121px; }
+
+    .shoe {
+      position: absolute;
+      top: 492px;
+      width: 72px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--shoeColor, #101010);
+      z-index: 5;
+      transition: 300ms ease;
+    }
+
+    .shoe.left { left: 96px; }
+    .shoe.right { right: 96px; }
+
+    .avatar-face {
+      position: absolute;
+      top: 62px;
+      left: 50%;
+      width: 42px;
+      height: 20px;
+      transform: translateX(-50%);
+      z-index: 8;
+    }
+
+    .avatar-face::before,
+    .avatar-face::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(18,18,18,0.65);
+    }
+
+    .avatar-face::before { left: 4px; }
+    .avatar-face::after { right: 4px; }
+
+    .mouth {
+      position: absolute;
+      left: 50%;
+      bottom: 1px;
+      width: 18px;
+      height: 8px;
+      transform: translateX(-50%);
+      border-bottom: 2px solid rgba(18,18,18,0.55);
+      border-radius: 0 0 20px 20px;
+    }
+
+    .fit-badges {
+      position: absolute;
+      left: 50%;
+      bottom: 26px;
+      display: flex;
+      gap: 8px;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    .fit-badge {
+      padding: 9px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.85);
+      color: #37322f;
+      font-size: 12px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .avatar-stage.drag-over {
+      box-shadow: inset 0 0 0 2px rgba(33,92,255,0.45), 0 0 54px rgba(33,92,255,0.16);
+    }
+
+    .studio-actions {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding-top: 14px;
+    }
+
+    .ghost {
+      padding: 12px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(20,20,20,0.08);
+      color: #2d2825;
+      transition: 200ms ease;
+    }
+
+    .ghost:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.92);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .closet-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .upload {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 132px;
+      margin-bottom: 14px;
+      border-radius: 24px;
+      border: 1px dashed rgba(20,20,20,0.18);
+      background: rgba(255,255,255,0.42);
+      text-align: center;
+      color: var(--muted);
+      overflow: hidden;
+    }
+
+    .upload input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .closet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .item-card {
+      position: relative;
+      min-height: 188px;
+      border-radius: 22px;
+      border: 1px solid rgba(20,20,20,0.08);
+      background: rgba(255,255,255,0.66);
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(35,31,28,0.07);
+      cursor: grab;
+      transition: transform 210ms ease, box-shadow 210ms ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-4px) rotate(-0.5deg);
+      box-shadow: 0 20px 44px rgba(35,31,28,0.13);
+    }
+
+    .item-card:active {
+      cursor: grabbing;
+    }
+
+    .item-art {
+      height: 112px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.88), transparent 34%),
+        linear-gradient(135deg, var(--itemColor), #fff);
+    }
+
+    .garment {
+      width: 74px;
+      height: 78px;
+      border-radius: 26px 26px 16px 16px;
+      background: var(--garment, #111);
+      box-shadow: inset -14px -16px 24px rgba(0,0,0,0.08);
+      clip-path: polygon(28% 0, 72% 0, 100% 26%, 82% 44%, 82% 100%, 18% 100%, 18% 44%, 0 26%);
+    }
+
+    .garment.bottom-shape {
+      width: 76px;
+      height: 82px;
+      border-radius: 14px 14px 34px 34px;
+      clip-path: polygon(0 0, 100% 0, 84% 100%, 55% 100%, 50% 34%, 45% 100%, 16% 100%);
+    }
+
+    .garment.shoes-shape {
+      width: 92px;
+      height: 34px;
+      border-radius: 999px;
+      clip-path: none;
+    }
+
+    .garment.accessory-shape {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      clip-path: none;
+      background: conic-gradient(from 180deg, var(--garment), #fff, var(--garment));
+    }
+
+    .item-info {
+      padding: 10px;
+    }
+
+    .item-info strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(20,20,20,0.06);
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .style-card-wrap {
+      margin-top: 20px;
+      perspective: 1200px;
+    }
+
+    .style-card {
+      position: relative;
+      min-height: 216px;
+      transform-style: preserve-3d;
+      transition: transform 700ms cubic-bezier(.2,.75,.2,1);
+      cursor: pointer;
+    }
+
+    .style-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      border-radius: 28px;
+      backface-visibility: hidden;
+      border: 1px solid rgba(255,255,255,0.72);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42)),
+        radial-gradient(circle at top right, rgba(183,166,255,0.45), transparent 42%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-face::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -42% 20%;
+      height: 120px;
+      background: linear-gradient(90deg, transparent, rgba(33,92,255,0.16), transparent);
+      transform: rotate(-12deg);
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background:
+        linear-gradient(135deg, rgba(20,20,20,0.92), rgba(32,41,78,0.86)),
+        radial-gradient(circle at top left, rgba(183,166,255,0.42), transparent 42%);
+      color: white;
+    }
+
+    .card-kicker {
+      color: var(--blue);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+    }
+
+    .card-back .card-kicker {
+      color: var(--pink);
+    }
+
+    .style-name {
+      margin: 8px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-weight: 500;
+    }
+
+    .palette {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0 10px;
+    }
+
+    .palette span {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.76);
+      box-shadow: 0 0 0 1px rgba(20,20,20,0.08);
+    }
+
+    .combo {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .card-back .combo {
+      color: rgba(255,255,255,0.74);
+    }
+
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 20;
+      background: rgba(247,243,238,0.36);
+      backdrop-filter: blur(8px);
+    }
+
+    .loading.active {
+      display: grid;
+    }
+
+    .loader {
+      width: min(420px, 80%);
+      padding: 18px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .shimmer {
+      height: 12px;
+      margin: 12px 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ece7df, #fff, #dfe3ea, #ece7df);
+      background-size: 240% 100%;
+      animation: shimmer 1.15s linear infinite;
+    }
+
+    .shimmer:nth-child(2) { width: 78%; }
+    .shimmer:nth-child(3) { width: 92%; }
+    .shimmer:nth-child(4) { width: 62%; }
+
+    @keyframes shimmer {
+      from { background-position: 200% 0; }
+      to { background-position: -40% 0; }
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 50;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(17,17,17,0.88);
+      color: white;
+      opacity: 0;
+      transform: translate(-50%, 14px);
+      transition: 230ms ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .generator-note {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .outfit-stage {
+      position: relative;
+      min-height: 720px;
+      display: grid;
+      place-items: center;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.96), transparent 44%),
+        linear-gradient(135deg, rgba(255,255,255,0.48), rgba(237,232,255,0.36));
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .outfit-stage::before {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,0.66);
+      background-image:
+        linear-gradient(rgba(20,20,20,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,20,20,0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      pointer-events: none;
+    }
+
+    .outfit-stage.drag-over {
+      box-shadow: inset 0 0 0 2px rgba(33,92,255,0.38), 0 0 64px rgba(33,92,255,0.16);
+    }
+
+    .outfit-stage .drop-hint {
+      z-index: 4;
+    }
+
+    .outfit-stage .style-card-wrap {
+      width: min(690px, 92%);
+      margin: 0;
+      perspective: 1400px;
+      z-index: 3;
+    }
+
+    .outfit-stage .style-card {
+      min-height: 660px;
+      transform: rotateX(var(--tiltX, 0deg)) rotateY(var(--tiltY, 0deg));
+      transition: transform 650ms cubic-bezier(.2,.75,.2,1);
+      will-change: transform;
+    }
+
+    .outfit-stage .style-card.flipped {
+      transform: rotateY(calc(180deg + var(--tiltY, 0deg))) rotateX(var(--tiltX, 0deg));
+    }
+
+    .outfit-stage .card-face {
+      padding: 32px;
+      border-radius: 42px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.9), rgba(239,235,255,0.78) 58%, rgba(255,213,223,0.62)),
+        radial-gradient(circle at 80% 10%, rgba(183,166,255,0.3), transparent 40%);
+    }
+
+    .outfit-stage .card-back {
+      background:
+        linear-gradient(150deg, rgba(255,255,255,0.94), rgba(232,235,255,0.88)),
+        radial-gradient(circle at 100% 100%, rgba(255,213,223,0.55), transparent 44%);
+      color: var(--ink);
+    }
+
+    .card-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(20,20,20,0.52);
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+    }
+
+    .vibe-subtitle {
+      margin: 0 0 22px;
+      color: rgba(20,20,20,0.54);
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .flat-lay {
+      position: relative;
+      height: 430px;
+      margin: 20px 0 22px;
+      border-radius: 34px;
+      background:
+        linear-gradient(90deg, #f7f7fb 0 20%, #fff 20% 80%, #f7f3fb 80% 100%);
+      box-shadow: inset 0 0 0 1px rgba(20,20,20,0.04);
+      overflow: hidden;
+    }
+
+    .lay-piece {
+      position: absolute;
+      filter: drop-shadow(0 18px 20px rgba(20,20,20,0.12));
+      transition: transform 280ms ease, filter 280ms ease;
+    }
+
+    .lay-piece:hover {
+      transform: translateY(-5px) rotate(var(--r, 0deg)) scale(1.02);
+      filter: drop-shadow(0 24px 28px rgba(20,20,20,0.16));
+    }
+
+    .piece-image,
+    .garment-photo {
+      width: 100%;
+      height: 100%;
+      background-image: var(--image);
+      background-size: var(--bgSize, cover);
+      background-position: var(--bgPos, center);
+      background-repeat: no-repeat;
+      border-radius: 18px;
+      mix-blend-mode: multiply;
+    }
+
+    .lay-piece.top { width: 210px; height: 210px; left: 58px; top: 60px; --r: -2deg; }
+    .lay-piece.outer { width: 205px; height: 205px; right: 36px; top: 46px; --r: 3deg; }
+    .lay-piece.bottom { width: 230px; height: 250px; left: 210px; top: 155px; --r: 1deg; }
+    .lay-piece.shoes { width: 176px; height: 120px; right: 58px; bottom: 40px; --r: -4deg; }
+    .lay-piece.bag { width: 170px; height: 128px; left: 54px; bottom: 42px; --r: 2deg; }
+    .lay-piece.accessory { width: 116px; height: 86px; right: 210px; top: 58px; --r: 5deg; }
+    .lay-piece.accessory.extra { width: 118px; height: 88px; right: 210px; bottom: 76px; --r: -5deg; }
+
+    .empty-lay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 32px;
+    }
+
+    .condition-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .condition-strip .fit-badge {
+      position: static;
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .back-quote {
+      margin: 24px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.35;
+      font-style: italic;
+    }
+
+    .palette-labeled {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 16px 0 26px;
+    }
+
+    .palette-labeled span {
+      display: block;
+      height: 50px;
+      border-radius: 16px;
+      border: 1px solid rgba(20,20,20,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+    }
+
+    .palette-labeled small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .note-list {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      color: #24201d;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .note-list li::before {
+      content: attr(data-index);
+      display: inline-block;
+      width: 38px;
+      color: rgba(20,20,20,0.34);
+      font-family: "Courier New", monospace;
+    }
+
+    .inventory-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+
+    .inventory-pill {
+      padding: 10px 8px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(20,20,20,0.08);
+      text-align: center;
+    }
+
+    .inventory-pill strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .inventory-pill span {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    .item-art {
+      background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(229,232,238,0.5));
+    }
+
+    .item-art .garment-photo {
+      width: 82%;
+      height: 86%;
+      background-color: transparent;
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel,
+      .right-panel,
+      .studio {
+        max-height: none;
+      }
+
+      .studio-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        padding: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .studio-header {
+        flex-direction: column;
+      }
+
+      .status-pill {
+        white-space: normal;
+        line-height: 1.25;
+      }
+
+      .weather-grid,
+      .closet-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .outfit-stage {
+        min-height: 650px;
+      }
+
+      .outfit-stage .style-card {
+        min-height: 610px;
+      }
+
+      .outfit-stage .card-face {
+        padding: 22px;
+      }
+
+      .flat-lay {
+        height: 360px;
+      }
+
+      .lay-piece.top { width: 152px; height: 160px; left: 24px; top: 54px; }
+      .lay-piece.outer { width: 150px; height: 150px; right: 16px; top: 52px; }
+      .lay-piece.bottom { width: 170px; height: 188px; left: 118px; top: 150px; }
+      .lay-piece.shoes { width: 128px; height: 88px; right: 24px; bottom: 34px; }
+      .lay-piece.bag { width: 124px; height: 96px; left: 24px; bottom: 36px; }
+      .lay-piece.accessory { width: 88px; height: 66px; right: 142px; top: 48px; }
+      .lay-piece.accessory.extra { width: 88px; height: 66px; right: 130px; bottom: 70px; }
+
+      .palette-labeled {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .studio-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">MC</div>
+        <div>
+          <h1>Mood Closet</h1>
+          <p class="tagline">A fashion-tech outfit board for today's mood, weather, and scene.</p>
+        </div>
+      </div>
+      <div class="status-pill"><span class="dot"></span><span>Prototype mode · AI styling simulated</span></div>
+    </header>
+
+    <section class="layout">
+      <aside class="panel left-panel">
+        <div class="section">
+          <div class="section-head">
+            <h2>Today's Mood</h2>
+            <span class="micro" id="moodValue">Confident</span>
+          </div>
+          <div class="option-grid" data-group="mood">
+            <button class="chip" data-value="Relaxed">Relaxed</button>
+            <button class="chip active" data-value="Confident">Confident</button>
+            <button class="chip" data-value="Romantic">Romantic</button>
+            <button class="chip" data-value="Dreamy">Dreamy</button>
+            <button class="chip" data-value="Bold">Bold</button>
+            <button class="chip" data-value="Street">Street</button>
+            <button class="chip" data-value="Minimal">Minimal</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>Weather</h2>
+            <span class="micro" id="weatherValue">Sunny</span>
+          </div>
+          <div class="weather-grid" data-group="weather">
+            <button class="weather active" data-value="Sunny"><span class="icon">☼</span><span>Sunny</span></button>
+            <button class="weather" data-value="Cloudy"><span class="icon">☁</span><span>Cloudy</span></button>
+            <button class="weather" data-value="Rainy"><span class="icon">☂</span><span>Rainy</span></button>
+            <button class="weather" data-value="Cold"><span class="icon">❄</span><span>Cold</span></button>
+            <button class="weather" data-value="Windy"><span class="icon">≋</span><span>Windy</span></button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>Occasion</h2>
+            <span class="micro" id="occasionValue">Cafe</span>
+          </div>
+          <div class="option-grid" data-group="occasion">
+            <button class="chip" data-value="Campus">Campus</button>
+            <button class="chip active" data-value="Cafe">Cafe</button>
+            <button class="chip" data-value="Work">Work</button>
+            <button class="chip" data-value="Date">Date</button>
+            <button class="chip" data-value="Concert">Concert</button>
+            <button class="chip" data-value="Night Out">Night Out</button>
+            <button class="chip" data-value="Travel">Travel</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>Outfit Generator</h2>
+            <span class="micro">Flat lay mode</span>
+          </div>
+          <p class="generator-note">Generate a complete editorial outfit board from today's mood, weather, occasion, and your wardrobe inventory.</p>
+          <button class="primary" id="generateBtn">Generate Outfit</button>
+        </div>
+      </aside>
+
+      <section class="panel studio">
+        <div class="studio-header">
+          <div class="studio-title">
+            <h3>Outfit Generator</h3>
+            <p>Build a clean flat lay look from mood signals and your closet. Drag wardrobe cards into the board or let Mood Closet style the full outfit.</p>
+          </div>
+          <span class="status-pill"><span class="dot"></span><span id="lookStatus">Ready to style</span></span>
+        </div>
+
+        <div class="outfit-stage" id="outfitStage">
+          <div class="loading" id="loading">
+            <div class="loader">
+              <strong>Generating your look...</strong>
+              <div class="shimmer"></div>
+              <div class="shimmer"></div>
+              <div class="shimmer"></div>
+            </div>
+          </div>
+          <div class="drop-hint">Drag closet items into the board</div>
+          <div class="style-card-wrap">
+            <div class="style-card" id="styleCard">
+              <div class="card-face card-front">
+                <div class="card-topline"><span>Today's Outfit</span><span>I · Tarot</span></div>
+                <div class="style-name" id="styleName">Modern Ivy</div>
+                <p class="vibe-subtitle" id="vibeSubtitle">Off-grid · Indigo wave</p>
+                <div class="flat-lay" id="flatLay">
+                  <div class="empty-lay">Generate an outfit or drag wardrobe items here.</div>
+                </div>
+                <div class="tags" id="keywordTags">
+                  <span class="tag">Denim</span><span class="tag">Utility</span><span class="tag">Calm</span>
+                </div>
+                <div class="condition-strip">
+                  <span class="fit-badge" id="fitMood">Mood · Confident</span>
+                  <span class="fit-badge" id="fitWeather">Weather · Sunny</span>
+                  <span class="fit-badge" id="fitOccasion">Stage · Cafe</span>
+                </div>
+              </div>
+              <div class="card-face card-back">
+                <div class="card-topline"><span>Style Notes</span><span>I · Reverse</span></div>
+                <p class="back-quote" id="manifestoTitle">Quiet pieces, sharp rhythm, and a bag that makes the day feel planned.</p>
+                <h2>Palette</h2>
+                <div class="palette-labeled" id="palette"></div>
+                <h2>Outfit</h2>
+                <ul class="note-list" id="outfitList"></ul>
+                <h2>Why This Outfit</h2>
+                <p class="combo" id="descriptionText">A precise but relaxed outfit that turns today's signals into a coordinated editorial board.</p>
+                <p class="combo"><strong>Tap to flip back</strong> · suitable for <span id="suitableOccasion">Cafe</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-actions">
+          <button class="ghost" data-action="regenerate">Regenerate Outfit</button>
+          <button class="ghost" data-action="save">Save to Closet</button>
+          <button class="ghost" data-action="another">Try Another Look</button>
+          <button class="ghost" data-action="download">Download Look</button>
+          <button class="ghost" data-action="share">Share Style Card</button>
+        </div>
+      </section>
+
+      <aside class="panel right-panel">
+        <div class="closet-head">
+          <div>
+            <h3>My Closet</h3>
+            <p class="tagline">Upload pieces or drag cards into the outfit board.</p>
+          </div>
+          <span class="status-pill"><span id="closetCount">6</span> items</span>
+        </div>
+
+        <label class="upload">
+          <input type="file" id="uploadInput" multiple accept="image/*" />
+          <span><strong>Upload closet photos</strong>Images become virtual garment cards</span>
+        </label>
+
+        <div class="inventory-summary" id="inventorySummary"></div>
+
+        <div class="closet-grid" id="closetGrid"></div>
+      </aside>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Saved</div>
+
+  <script type="application/disabled">
+    const state = {
+      mood: "Confident",
+      weather: "Sunny",
+      occasion: "Cafe",
+      avatar: "Virtual model",
+      currentLook: 0,
+      closet: [
+        { name: "Ivory Sculpt Top", category: "Top", color: "Ivory", tags: ["Minimal", "Soft"], hex: "#f4efe8", type: "top" },
+        { name: "Charcoal Fluid Trouser", category: "Bottom", color: "Charcoal", tags: ["Work", "Clean"], hex: "#2d3444", type: "bottom" },
+        { name: "Silver Tech Coat", category: "Outer", color: "Silver", tags: ["Future", "Rain"], hex: "#cfd5df", type: "outer" },
+        { name: "Black Low Sneaker", category: "Shoes", color: "Black", tags: ["Street", "Daily"], hex: "#111111", type: "shoes" },
+        { name: "Lavender Mesh Top", category: "Top", color: "Lavender", tags: ["Dreamy", "Date"], hex: "#b7a6ff", type: "top" },
+        { name: "Pink Glass Bag", category: "Accessory", color: "Pink", tags: ["Accent", "Cafe"], hex: "#ffd5df", type: "accessory" }
+      ]
+    };
+
+    const styleDeck = [
+      {
+        name: "Electric Minimal Muse",
+        keywords: ["Clean lines", "Silver detail", "Soft power"],
+        combo: "Cropped ivory knit, fluid charcoal trousers, structured silver outer layer, low black shoes.",
+        desc: "A precise but relaxed outfit that turns confidence into clean shape, cool color, and quiet impact.",
+        manifesto: "Dress like your day already knows your name.",
+        colors: ["#111111", "#f4efe8", "#b7a6ff", "#215cff"],
+        fit: { top: "#f4efe8", bottom: "#2d3444", outer: "#cfd5df", shoe: "#111111" }
+      },
+      {
+        name: "Soft Street Ritual",
+        keywords: ["Oversized", "Cafe cool", "Tender edge"],
+        combo: "Lavender mesh layer, soft gray cargo skirt, black sneakers, glossy pink bag.",
+        desc: "Streetwear softened by airy color and touchable textures, made for slow walks and good lighting.",
+        manifesto: "Let softness take up space.",
+        colors: ["#b7a6ff", "#dfe3ea", "#141414", "#ffd5df"],
+        fit: { top: "#b7a6ff", bottom: "#8c929d", outer: "#f2f2f2", shoe: "#111111" }
+      },
+      {
+        name: "Moonlit Campus Layer",
+        keywords: ["Layered", "Smart casual", "Weather-aware"],
+        combo: "Cream shirt, navy pleated bottom, windproof silver jacket, polished loafers.",
+        desc: "A practical campus look with a cinematic surface: clean, bright, and ready to move.",
+        manifesto: "Function can still feel like a scene.",
+        colors: ["#f7f3ee", "#1d2f65", "#dfe3ea", "#0f0f10"],
+        fit: { top: "#fffaf1", bottom: "#1d2f65", outer: "#dfe3ea", shoe: "#0f0f10" }
+      },
+      {
+        name: "Velvet Night Signal",
+        keywords: ["Bold", "After dark", "Blue flash"],
+        combo: "Black fitted base, deep blue long coat, silver accessories, sharp platform shoes.",
+        desc: "A night-out look with one electric highlight and a clean silhouette, dramatic without clutter.",
+        manifesto: "Arrive like a highlight, leave like a memory.",
+        colors: ["#0d0d0f", "#215cff", "#bfc5d0", "#ffd5df"],
+        fit: { top: "#111111", bottom: "#171a22", outer: "#215cff", shoe: "#0d0d0f" }
+      }
+    ];
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+
+    function setGroup(group, value) {
+      state[group] = value;
+      document.getElementById(`${group}Value`).textContent = value;
+      document.getElementById(`fit${group[0].toUpperCase() + group.slice(1)}`).textContent = value;
+      document.querySelectorAll(`[data-group="${group}"] button`).forEach((button) => {
+        button.classList.toggle("active", button.dataset.value === value);
+      });
+    }
+
+    function renderCloset() {
+      const grid = $("#closetGrid");
+      grid.innerHTML = "";
+      state.closet.forEach((item, index) => {
+        const shape = item.type === "bottom" ? "bottom-shape" : item.type === "shoes" ? "shoes-shape" : item.type === "accessory" ? "accessory-shape" : "";
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.draggable = true;
+        card.dataset.index = index;
+        card.innerHTML = `
+          <div class="item-art" style="--itemColor:${item.hex}">
+            <div class="garment ${shape}" style="--garment:${item.hex}"></div>
+          </div>
+          <div class="item-info">
+            <strong>${item.name}</strong>
+            <div class="tags">
+              <span class="tag">${item.category}</span>
+              <span class="tag">${item.color}</span>
+              ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+            </div>
+          </div>
+        `;
+        card.addEventListener("dragstart", (event) => {
+          event.dataTransfer.setData("text/plain", index);
+        });
+        grid.appendChild(card);
+      });
+      $("#closetCount").textContent = state.closet.length;
+    }
+
+    function applyGarment(item) {
+      const avatar = $("#avatar");
+      if (item.type === "top") avatar.style.setProperty("--topColor", item.hex);
+      if (item.type === "bottom") avatar.style.setProperty("--bottomColor", item.hex);
+      if (item.type === "outer") {
+        avatar.style.setProperty("--outerColor", item.hex);
+        avatar.style.setProperty("--outerOn", "0.88");
+      }
+      if (item.type === "shoes") avatar.style.setProperty("--shoeColor", item.hex);
+      if (item.type === "accessory") showToast(`${item.name} added as accent`);
+    }
+
+    function generateLook(offset = 0) {
+      const loading = $("#loading");
+      loading.classList.add("active");
+      $("#lookStatus").textContent = "Styling...";
+      const seed = state.mood.length + state.weather.length + state.occasion.length + state.currentLook + offset;
+      const look = styleDeck[seed % styleDeck.length];
+      setTimeout(() => {
+        $("#styleName").textContent = look.name;
+        $("#manifestoTitle").textContent = look.manifesto;
+        $("#descriptionText").textContent = look.desc;
+        $("#comboText").textContent = look.combo;
+        $("#keywordTags").innerHTML = look.keywords.map((tag) => `<span class="tag">${tag}</span>`).join("");
+        $("#palette").innerHTML = look.colors.map((color) => `<span style="background:${color}"></span>`).join("");
+        const avatar = $("#avatar");
+        avatar.style.setProperty("--topColor", look.fit.top);
+        avatar.style.setProperty("--bottomColor", look.fit.bottom);
+        avatar.style.setProperty("--outerColor", look.fit.outer);
+        avatar.style.setProperty("--shoeColor", look.fit.shoe);
+        avatar.style.setProperty("--outerOn", "0.86");
+        $("#avatarWrap").style.animation = "none";
+        $("#avatarWrap").offsetHeight;
+        $("#avatarWrap").style.animation = "";
+        $("#lookStatus").textContent = "Look generated";
+        loading.classList.remove("active");
+        showToast(`${look.name} generated`);
+      }, 920);
+    }
+
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
+    }
+
+    $$("[data-group]").forEach((groupEl) => {
+      groupEl.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-value]");
+        if (!button) return;
+        setGroup(groupEl.dataset.group, button.dataset.value);
+      });
+    });
+
+    $$(".mode").forEach((button) => {
+      button.addEventListener("click", () => {
+        $$(".mode").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        state.avatar = button.dataset.avatar;
+        $("#avatarValue").textContent = state.avatar;
+        $("#cameraPreview").classList.toggle("active", state.avatar === "Camera capture");
+        showToast(`${state.avatar} selected`);
+      });
+    });
+
+    $("#skinSwatches").addEventListener("click", (event) => {
+      const swatch = event.target.closest(".swatch");
+      if (!swatch) return;
+      $$("#skinSwatches .swatch").forEach((item) => item.classList.remove("active"));
+      swatch.classList.add("active");
+      $("#avatar").style.setProperty("--skin", swatch.dataset.skin);
+    });
+
+    $("#hairStyle").addEventListener("change", (event) => {
+      $("#hair").className = `hair ${event.target.value}`;
+    });
+
+    $("#bodyShape").addEventListener("change", (event) => {
+      const map = {
+        balanced: ["154px", "144px"],
+        slim: ["132px", "126px"],
+        soft: ["166px", "158px"],
+        strong: ["180px", "154px"]
+      };
+      const [torso, hip] = map[event.target.value];
+      $("#avatar").style.setProperty("--torso", torso);
+      $("#avatar").style.setProperty("--hip", hip);
+    });
+
+    $("#pose").addEventListener("change", (event) => {
+      const avatar = $("#avatar");
+      const map = {
+        neutral: ["8deg", "-8deg"],
+        lean: ["-2deg", "-18deg"],
+        motion: ["20deg", "-28deg"]
+      };
+      const [left, right] = map[event.target.value];
+      avatar.style.setProperty("--armRotateLeft", left);
+      avatar.style.setProperty("--armRotateRight", right);
+    });
+
+    $("#uploadInput").addEventListener("change", (event) => {
+      const files = [...event.target.files];
+      const types = ["top", "bottom", "outer", "shoes", "accessory"];
+      files.forEach((file, index) => {
+        const type = types[(state.closet.length + index) % types.length];
+        const colorPool = ["#111111", "#f4efe8", "#b7a6ff", "#215cff", "#ffd5df", "#cfd5df"];
+        state.closet.unshift({
+          name: file.name.replace(/\.[^/.]+$/, "").slice(0, 24) || "Uploaded Piece",
+          category: type[0].toUpperCase() + type.slice(1),
+          color: "Detected",
+          tags: ["Uploaded", "AI mock"],
+          hex: colorPool[(state.closet.length + index) % colorPool.length],
+          type
+        });
+      });
+      renderCloset();
+      showToast(`${files.length} closet item${files.length === 1 ? "" : "s"} added`);
+      event.target.value = "";
+    });
+
+    $("#avatarStage").addEventListener("dragover", (event) => {
+      event.preventDefault();
+      $("#avatarStage").classList.add("drag-over");
+    });
+
+    $("#avatarStage").addEventListener("dragleave", () => {
+      $("#avatarStage").classList.remove("drag-over");
+    });
+
+    $("#avatarStage").addEventListener("drop", (event) => {
+      event.preventDefault();
+      $("#avatarStage").classList.remove("drag-over");
+      const item = state.closet[Number(event.dataTransfer.getData("text/plain"))];
+      if (!item) return;
+      applyGarment(item);
+      showToast(`${item.name} snapped to avatar`);
+    });
+
+    $("#generateBtn").addEventListener("click", () => generateLook());
+
+    $$(".studio-actions .ghost").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+        if (action === "regenerate" || action === "another") {
+          state.currentLook += 1;
+          generateLook(1);
+          return;
+        }
+        const labels = {
+          save: "Look saved to closet",
+          download: "Download mockup prepared",
+          share: "Share card copied as prototype link"
+        };
+        showToast(labels[action]);
+      });
+    });
+
+    $("#styleCard").addEventListener("click", () => {
+      $("#styleCard").classList.toggle("flipped");
+    });
+
+    renderCloset();
+  </script>
+  <script>
+    const state = {
+      mood: "Confident",
+      weather: "Sunny",
+      occasion: "Cafe",
+      currentLook: 0,
+      outfit: {},
+      closet: [
+        { name: "Blue Stripe Shirt", group: "TOP", category: "Shirts", color: "Sky blue", tags: ["Ivy", "Clean"], hex: "#9ebbe9", src: "assets/closet-board-1.png", bgSize: "285%", bgPos: "7% 5%" },
+        { name: "Burgundy Zip Jacket", group: "TOP", category: "Jackets", color: "Burgundy", tags: ["Bold", "Outer"], hex: "#621722", src: "assets/closet-board-1.png", bgSize: "310%", bgPos: "5% 46%" },
+        { name: "Navy Wide Pants", group: "BOTTOM", category: "Pants", color: "Navy", tags: ["Work", "Relaxed"], hex: "#18233a", src: "assets/closet-board-1.png", bgSize: "285%", bgPos: "50% 52%" },
+        { name: "Leather Duffle Bag", group: "ACCESSORIES", category: "Bags", color: "Brown", tags: ["Travel", "Heritage"], hex: "#8c5631", src: "assets/closet-board-1.png", bgSize: "300%", bgPos: "91% 20%" },
+        { name: "Brown Loafer", group: "SHOES", category: "Loafers", color: "Brown", tags: ["Classic", "Ivy"], hex: "#714123", src: "assets/closet-board-1.png", bgSize: "330%", bgPos: "50% 93%" },
+        { name: "Silver Chain", group: "ACCESSORIES", category: "Necklaces", color: "Silver", tags: ["Accent", "Clean"], hex: "#c9ccd1", src: "assets/closet-board-1.png", bgSize: "330%", bgPos: "7% 94%" },
+        { name: "White Pinstripe Shirt", group: "TOP", category: "Shirts", color: "White", tags: ["Minimal", "Work"], hex: "#f5f2eb", src: "assets/closet-board-2.png", bgSize: "255%", bgPos: "7% 7%" },
+        { name: "Gray Cargo Shorts", group: "BOTTOM", category: "Shorts", color: "Gray", tags: ["Summer", "Utility"], hex: "#b9bab5", src: "assets/closet-board-2.png", bgSize: "245%", bgPos: "92% 5%" },
+        { name: "Camo Cargo Shorts", group: "BOTTOM", category: "Shorts", color: "Olive", tags: ["Street", "Utility"], hex: "#777b5b", src: "assets/camo-shorts.png", bgSize: "cover", bgPos: "center" },
+        { name: "Brown Boat Loafer", group: "SHOES", category: "Loafers", color: "Brown", tags: ["Travel", "Casual"], hex: "#5c3928", src: "assets/closet-board-2.png", bgSize: "265%", bgPos: "72% 48%" },
+        { name: "Brown Crossbody Bag", group: "ACCESSORIES", category: "Bags", color: "Brown", tags: ["Daily", "Soft"], hex: "#5a4439", src: "assets/closet-board-2.png", bgSize: "255%", bgPos: "8% 90%" },
+        { name: "Tortoise Glasses", group: "ACCESSORIES", category: "Glasses", color: "Tortoise", tags: ["Smart", "Detail"], hex: "#3c2d25", src: "assets/closet-board-2.png", bgSize: "280%", bgPos: "92% 92%" }
+      ]
+    };
+
+    const styleDeck = [
+      {
+        name: "City Prep",
+        subtitle: "Pinstripe · polished utility",
+        keywords: ["Ivy", "Utility", "Composed", "Daily"],
+        desc: "A crisp shirt and structured bottom keep the look editorial, while brown leather anchors it for real movement.",
+        manifesto: "Let the outfit feel planned, not precious.",
+        colors: [["#1b2d52", "Raw indigo"], ["#f5f2eb", "Foam"], ["#7a573d", "Leather"], ["#a5abb2", "Steel"]]
+      },
+      {
+        name: "Modern Ivy",
+        subtitle: "Off-grid · indigo wave",
+        keywords: ["Denim", "Calm", "Academic", "Clean"],
+        desc: "Classic proportions with softer texture: easy enough for daytime, sharp enough for plans after.",
+        manifesto: "Quiet pieces can still have a point of view.",
+        colors: [["#203050", "Navy"], ["#f7f3ee", "Cream"], ["#8c5631", "Saddle"], ["#c9ccd1", "Silver"]]
+      },
+      {
+        name: "Soft Business Casual",
+        subtitle: "White space · leather note",
+        keywords: ["Minimal", "Work", "Warm", "Precise"],
+        desc: "The clean top gives air, the muted bottom gives structure, and leather accessories keep the board grounded.",
+        manifesto: "Wear ease like a quiet luxury.",
+        colors: [["#f6f2ea", "White"], ["#b8b9b4", "Soft gray"], ["#5c3928", "Brown"], ["#111111", "Black"]]
+      },
+      {
+        name: "Summer Academic",
+        subtitle: "Camo utility · clean study",
+        keywords: ["Summer", "Utility", "Street", "Light"],
+        desc: "A clean shirt balances camo shorts and brown shoes, making the outfit feel considered rather than casual by accident.",
+        manifesto: "Keep it light. Make every object earn its place.",
+        colors: [["#777b5b", "Olive"], ["#f5f2eb", "Foam"], ["#5c3928", "Brown"], ["#202020", "Ink"]]
+      }
+    ];
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+    const groupOrder = ["TOP", "BOTTOM", "SHOES", "ACCESSORIES"];
+
+    function setGroup(group, value) {
+      state[group] = value;
+      document.getElementById(`${group}Value`).textContent = value;
+      const label = group === "occasion" ? "Stage" : group[0].toUpperCase() + group.slice(1);
+      document.getElementById(`fit${group[0].toUpperCase() + group.slice(1)}`).textContent = `${label} · ${value}`;
+      if (group === "occasion") $("#suitableOccasion").textContent = value;
+      document.querySelectorAll(`[data-group="${group}"] button`).forEach((button) => {
+        button.classList.toggle("active", button.dataset.value === value);
+      });
+    }
+
+    function imageStyle(item) {
+      return `--image:url('${item.src}');--bgSize:${item.bgSize || "cover"};--bgPos:${item.bgPos || "center"};`;
+    }
+
+    function renderCloset() {
+      const grid = $("#closetGrid");
+      grid.innerHTML = "";
+      state.closet.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.draggable = true;
+        card.dataset.index = index;
+        card.innerHTML = `
+          <div class="item-art">
+            <div class="garment-photo" style="${imageStyle(item)}"></div>
+          </div>
+          <div class="item-info">
+            <strong>${item.name}</strong>
+            <div class="tags">
+              <span class="tag">${item.group}</span>
+              <span class="tag">${item.category}</span>
+              <span class="tag">${item.color}</span>
+              ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+            </div>
+          </div>
+        `;
+        card.addEventListener("dragstart", (event) => {
+          event.dataTransfer.setData("text/plain", index);
+        });
+        grid.appendChild(card);
+      });
+      $("#closetCount").textContent = state.closet.length;
+      renderInventory();
+    }
+
+    function renderInventory() {
+      $("#inventorySummary").innerHTML = groupOrder.map((group) => {
+        const count = state.closet.filter((item) => item.group === group).length;
+        return `<div class="inventory-pill"><strong>${count}</strong><span>${group}</span></div>`;
+      }).join("");
+    }
+
+    function selectItems(seed) {
+      const byGroup = (group) => state.closet.filter((item) => item.group === group);
+      const pick = (group, preference = () => true) => {
+        const items = byGroup(group);
+        const preferred = items.filter(preference);
+        const pool = preferred.length ? preferred : items;
+        return pool[(seed + state.currentLook + pool.length) % pool.length];
+      };
+      const needsJacket = state.weather === "Cold" || state.weather === "Rainy" || state.occasion === "Night Out";
+      return {
+        top: pick("TOP", (item) => needsJacket ? item.category === "Jackets" : item.category !== "Jackets"),
+        outer: needsJacket ? pick("TOP", (item) => item.category === "Jackets") : null,
+        bottom: pick("BOTTOM", (item) => state.weather === "Sunny" ? item.category === "Shorts" : item.category === "Pants"),
+        shoes: pick("SHOES"),
+        bag: pick("ACCESSORIES", (item) => item.category === "Bags"),
+        accessory: pick("ACCESSORIES", (item) => item.category !== "Bags")
+      };
+    }
+
+    function renderOutfitList() {
+      const items = [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes, state.outfit.bag, state.outfit.accessory].filter(Boolean);
+      $("#outfitList").innerHTML = items.map((item, index) => {
+        const number = String(index + 1).padStart(2, "0");
+        return `<li data-index="${number}">${item.name}</li>`;
+      }).join("");
+    }
+
+    function renderFlatLay() {
+      const flatLay = $("#flatLay");
+      const pieces = [
+        ["top", state.outfit.top],
+        ["outer", state.outfit.outer],
+        ["bottom", state.outfit.bottom],
+        ["shoes", state.outfit.shoes],
+        ["bag", state.outfit.bag],
+        ["accessory", state.outfit.accessory]
+      ].filter(([, item]) => item);
+
+      if (!pieces.length) {
+        flatLay.innerHTML = `<div class="empty-lay">Generate an outfit or drag wardrobe items here.</div>`;
+        $("#outfitList").innerHTML = "";
+        return;
+      }
+
+      flatLay.innerHTML = pieces.map(([slot, item], index) => {
+        const extra = slot === "accessory" && index > 4 ? " extra" : "";
+        return `<div class="lay-piece ${slot}${extra}" title="${item.name}">
+          <div class="piece-image" style="${imageStyle(item)}"></div>
+        </div>`;
+      }).join("");
+      renderOutfitList();
+    }
+
+    function applyGarment(item) {
+      if (item.group === "TOP" && item.category === "Jackets") state.outfit.outer = item;
+      else if (item.group === "TOP") state.outfit.top = item;
+      else if (item.group === "BOTTOM") state.outfit.bottom = item;
+      else if (item.group === "SHOES") state.outfit.shoes = item;
+      else if (item.group === "ACCESSORIES" && item.category === "Bags") state.outfit.bag = item;
+      else if (item.group === "ACCESSORIES") state.outfit.accessory = item;
+      renderFlatLay();
+      showToast(`${item.name} added to outfit board`);
+    }
+
+    function generateLook(offset = 0) {
+      const loading = $("#loading");
+      loading.classList.add("active");
+      $("#lookStatus").textContent = "Styling...";
+      const seed = state.mood.length + state.weather.length + state.occasion.length + state.currentLook + offset;
+      const look = styleDeck[seed % styleDeck.length];
+      setTimeout(() => {
+        state.outfit = selectItems(seed % styleDeck.length);
+        $("#styleName").textContent = look.name;
+        $("#manifestoTitle").textContent = look.manifesto;
+        $("#descriptionText").textContent = look.desc;
+        $("#vibeSubtitle").textContent = look.subtitle;
+        $("#keywordTags").innerHTML = look.keywords.map((tag) => `<span class="tag">${tag}</span>`).join("");
+        $("#palette").innerHTML = look.colors.map(([color, label]) => `<div><span style="background:${color}"></span><small>${label}</small></div>`).join("");
+        $("#suitableOccasion").textContent = state.occasion;
+        renderFlatLay();
+        $("#lookStatus").textContent = "Look generated";
+        loading.classList.remove("active");
+        showToast(`${look.name} generated`);
+      }, 850);
+    }
+
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
+    }
+
+    function categorizeUpload(file, index) {
+      const name = file.name.toLowerCase();
+      if (/jacket|coat|outer|zip|blouson/.test(name)) return ["TOP", "Jackets"];
+      if (/shirt|tee|t-shirt|top|tank|knit/.test(name)) return ["TOP", name.includes("tee") || name.includes("t-shirt") ? "T-shirts" : "Shirts"];
+      if (/short/.test(name)) return ["BOTTOM", "Shorts"];
+      if (/pant|trouser|denim|jean/.test(name)) return ["BOTTOM", "Pants"];
+      if (/loafer|shoe|sneaker|boot/.test(name)) return ["SHOES", name.includes("sneaker") ? "Sneakers" : "Loafers"];
+      if (/bag|duffle|tote/.test(name)) return ["ACCESSORIES", "Bags"];
+      if (/glass/.test(name)) return ["ACCESSORIES", "Glasses"];
+      if (/cap|hat|beanie/.test(name)) return ["ACCESSORIES", "Caps"];
+      if (/necklace|chain/.test(name)) return ["ACCESSORIES", "Necklaces"];
+      return [["TOP", "Shirts"], ["BOTTOM", "Pants"], ["SHOES", "Sneakers"], ["ACCESSORIES", "Bags"]][index % 4];
+    }
+
+    $$("[data-group]").forEach((groupEl) => {
+      groupEl.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-value]");
+        if (!button) return;
+        setGroup(groupEl.dataset.group, button.dataset.value);
+      });
+    });
+
+    $("#uploadInput").addEventListener("change", (event) => {
+      const files = [...event.target.files];
+      files.forEach((file, index) => {
+        const [group, category] = categorizeUpload(file, index);
+        const colorPool = ["#111111", "#f4efe8", "#b7a6ff", "#215cff", "#ffd5df", "#cfd5df"];
+        state.closet.unshift({
+          name: file.name.replace(/\.[^/.]+$/, "").slice(0, 24) || "Uploaded Piece",
+          group,
+          category,
+          color: "Detected",
+          tags: ["Uploaded", "Auto sorted"],
+          hex: colorPool[(state.closet.length + index) % colorPool.length],
+          src: URL.createObjectURL(file),
+          bgSize: "contain",
+          bgPos: "center"
+        });
+      });
+      renderCloset();
+      showToast(`${files.length} closet item${files.length === 1 ? "" : "s"} categorized`);
+      event.target.value = "";
+    });
+
+    $("#outfitStage").addEventListener("dragover", (event) => {
+      event.preventDefault();
+      $("#outfitStage").classList.add("drag-over");
+    });
+
+    $("#outfitStage").addEventListener("dragleave", () => {
+      $("#outfitStage").classList.remove("drag-over");
+    });
+
+    $("#outfitStage").addEventListener("drop", (event) => {
+      event.preventDefault();
+      $("#outfitStage").classList.remove("drag-over");
+      const item = state.closet[Number(event.dataTransfer.getData("text/plain"))];
+      if (!item) return;
+      applyGarment(item);
+    });
+
+    $("#generateBtn").addEventListener("click", () => generateLook());
+
+    $$(".studio-actions .ghost").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+        if (action === "regenerate" || action === "another") {
+          state.currentLook += 1;
+          generateLook(1);
+          return;
+        }
+        const labels = {
+          save: "Outfit saved to closet",
+          download: "Download mockup prepared",
+          share: "Share card copied as prototype link"
+        };
+        showToast(labels[action]);
+      });
+    });
+
+    const styleCard = $("#styleCard");
+    styleCard.addEventListener("mousemove", (event) => {
+      const rect = styleCard.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      styleCard.style.setProperty("--tiltX", `${(-y * 8).toFixed(2)}deg`);
+      styleCard.style.setProperty("--tiltY", `${(x * 10).toFixed(2)}deg`);
+    });
+
+    styleCard.addEventListener("mouseleave", () => {
+      styleCard.style.setProperty("--tiltX", "0deg");
+      styleCard.style.setProperty("--tiltY", "0deg");
+    });
+
+    styleCard.addEventListener("click", () => {
+      styleCard.classList.toggle("flipped");
+    });
+
+    renderCloset();
+    generateLook();
+  </script>
+</body>
+</html>
