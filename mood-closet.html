@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mood Closet - Interactive Outfit Board Prototype</title>
+  <title>FASHION mood - Style Notes Outfit Card</title>
   <style>
     :root {
       --bg: #f7f3ee;
@@ -1344,6 +1344,413 @@
       background-color: transparent;
     }
 
+    :root {
+      --bg: #eeece6;
+      --panel: rgba(244, 242, 236, 0.88);
+      --panel-strong: rgba(250, 248, 242, 0.94);
+      --ink: #0c0d0e;
+      --muted: #676965;
+      --line: rgba(12, 13, 14, 0.14);
+      --lavender: #536b83;
+      --blue: #405f82;
+      --pink: #7b1e2b;
+      --silver: #c6c9c7;
+      --navy: #111a2a;
+      --burgundy: #781d2a;
+      --chrome: #c9cdd0;
+      --denim: #5b7187;
+      --shadow: 0 26px 70px rgba(18, 20, 23, 0.16);
+      --soft-shadow: 0 14px 34px rgba(18, 20, 23, 0.12);
+      --radius: 22px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 0%, rgba(88, 111, 132, 0.22), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(120, 29, 42, 0.12), transparent 26%),
+        linear-gradient(135deg, #f3f0e9 0%, #e8e8e4 45%, #f6f4ef 100%);
+      color: var(--ink);
+    }
+
+    body::before {
+      opacity: 0.42;
+      background-image:
+        radial-gradient(circle, rgba(12,13,14,0.12) 0 1px, transparent 1px),
+        linear-gradient(rgba(12,13,14,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(12,13,14,0.035) 1px, transparent 1px);
+      background-size: 4px 4px, 52px 52px, 52px 52px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.42), transparent 78%);
+    }
+
+    .logo {
+      color: #f3f0e9;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 12px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0)),
+        linear-gradient(135deg, #08090b 0%, #182337 56%, #87919a 100%);
+      box-shadow: 0 18px 36px rgba(17,26,42,0.28);
+    }
+
+    h1 {
+      font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: -0.06em;
+      text-transform: none;
+    }
+
+    .brand-strong {
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.08em;
+    }
+
+    .brand-soft {
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      color: var(--denim);
+    }
+
+    .tagline {
+      color: #5d5d58;
+      letter-spacing: 0.01em;
+    }
+
+    .status-pill {
+      border-color: rgba(12,13,14,0.1);
+      background: rgba(250,248,242,0.82);
+      color: #1c1d1d;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(18,20,23,0.1);
+    }
+
+    .dot {
+      background: var(--burgundy);
+      box-shadow: 0 0 18px rgba(120,29,42,0.62);
+    }
+
+    .panel {
+      border-color: rgba(12,13,14,0.12);
+      background:
+        linear-gradient(180deg, rgba(250,248,242,0.9), rgba(235,234,229,0.84)),
+        var(--panel);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      color: #2e3030;
+      font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.26em;
+      font-weight: 900;
+    }
+
+    h3 {
+      font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .chip,
+    .weather,
+    .ghost,
+    .closet-select,
+    select {
+      border-color: rgba(12,13,14,0.12);
+      background: rgba(249,247,241,0.74);
+      color: #111;
+      box-shadow: none;
+    }
+
+    .chip:hover,
+    .weather:hover,
+    .ghost:hover {
+      box-shadow: 0 12px 24px rgba(18,20,23,0.12);
+    }
+
+    .chip.active {
+      color: #f4f0e8;
+      border-color: rgba(12,13,14,0.24);
+      background: linear-gradient(135deg, #090a0c 0%, #13223a 60%, #5e7184 100%);
+      box-shadow: 0 18px 34px rgba(17,26,42,0.25);
+    }
+
+    .weather.active {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(202,208,211,0.72));
+      box-shadow: inset 0 0 0 1px rgba(64,95,130,0.34), 0 14px 28px rgba(18,20,23,0.1);
+    }
+
+    .primary {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #f7f3ea;
+      background: linear-gradient(135deg, #090a0c 0%, #16243a 62%, #781d2a 100%);
+      box-shadow: 0 20px 44px rgba(17,26,42,0.28);
+    }
+
+    .studio {
+      background:
+        linear-gradient(180deg, rgba(250,248,242,0.92), rgba(232,232,228,0.88)),
+        var(--panel);
+    }
+
+    .studio-title p,
+    .generator-note {
+      color: #686762;
+    }
+
+    .outfit-stage {
+      min-height: 780px;
+      border: 1px solid rgba(12,13,14,0.08);
+      background:
+        radial-gradient(circle at 28% 16%, rgba(255,255,255,0.78), transparent 30%),
+        radial-gradient(circle at 78% 7%, rgba(91,113,135,0.22), transparent 28%),
+        linear-gradient(135deg, rgba(238,236,230,0.94), rgba(215,219,220,0.64));
+    }
+
+    .outfit-stage::before {
+      border-color: rgba(12,13,14,0.1);
+      background-image:
+        linear-gradient(rgba(12,13,14,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(12,13,14,0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+    }
+
+    .drop-hint {
+      border: 1px solid rgba(12,13,14,0.08);
+      background: rgba(249,247,241,0.84);
+      color: #5e615e;
+      box-shadow: 0 14px 28px rgba(18,20,23,0.1);
+    }
+
+    .outfit-stage .style-card-wrap {
+      width: min(610px, 92%);
+    }
+
+    .outfit-stage .style-card {
+      min-height: 760px;
+    }
+
+    .outfit-stage .card-face {
+      padding: 34px 36px;
+      border-radius: 36px;
+      border-color: rgba(255,255,255,0.72);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,0.72), transparent 28%),
+        linear-gradient(155deg, #f7f3ea 0%, #eff0ee 48%, #dce3ea 100%);
+      box-shadow:
+        0 40px 80px rgba(18,20,23,0.18),
+        inset 0 0 0 1px rgba(12,13,14,0.08);
+    }
+
+    .outfit-stage .card-face::after {
+      inset: 0;
+      height: auto;
+      background-image:
+        radial-gradient(circle, rgba(12,13,14,0.1) 0 1px, transparent 1px),
+        linear-gradient(135deg, transparent, rgba(120,29,42,0.07), transparent 62%);
+      background-size: 5px 5px, 100% 100%;
+      opacity: 0.26;
+      transform: none;
+      pointer-events: none;
+    }
+
+    .outfit-stage .card-back {
+      background:
+        radial-gradient(circle at 88% 4%, rgba(91,113,135,0.2), transparent 32%),
+        linear-gradient(150deg, #f8f5ee 0%, #eef0f0 54%, #dfe5eb 100%);
+      color: var(--ink);
+    }
+
+    .card-topline {
+      color: rgba(12,13,14,0.58);
+      font-size: 14px;
+      letter-spacing: 0.38em;
+    }
+
+    .style-name {
+      margin: 14px 0 10px;
+      color: #0b0c0d;
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-size: clamp(40px, 5vw, 62px);
+      line-height: 1.04;
+      letter-spacing: -0.065em;
+    }
+
+    .vibe-subtitle {
+      color: rgba(12,13,14,0.56);
+      font-size: 13px;
+      letter-spacing: 0.28em;
+    }
+
+    .flat-lay {
+      height: 410px;
+      margin-top: 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(90deg, rgba(250,250,248,0.96), rgba(255,255,255,1) 34%, rgba(255,255,255,1) 68%, rgba(239,242,244,0.9));
+      box-shadow:
+        inset 0 0 0 1px rgba(12,13,14,0.045),
+        0 22px 46px rgba(18,20,23,0.08);
+    }
+
+    .piece-image,
+    .garment-photo {
+      background-size: var(--bgSize, contain);
+      background-position: var(--bgPos, center);
+      background-repeat: no-repeat;
+      mix-blend-mode: multiply;
+    }
+
+    .item-art .garment-photo {
+      width: 86%;
+      height: 88%;
+    }
+
+    .tags {
+      justify-content: flex-start;
+    }
+
+    .tag {
+      border: 1px solid rgba(12,13,14,0.08);
+      background: rgba(250,248,242,0.82);
+      color: #1b1c1c;
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .flip-hint,
+    .flip-hint-back {
+      margin: 18px 0 0;
+      color: rgba(12,13,14,0.48);
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.28em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .condition-strip .fit-badge {
+      background: rgba(249,247,241,0.84);
+      border-color: rgba(12,13,14,0.1);
+      color: #151617;
+    }
+
+    .back-quote {
+      color: #0c0d0e;
+      font-size: clamp(27px, 3.5vw, 43px);
+      line-height: 1.28;
+      margin: 28px 0 30px;
+    }
+
+    .palette-labeled span {
+      height: 54px;
+      border-radius: 18px;
+      border-color: rgba(12,13,14,0.16);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.36), 0 12px 22px rgba(18,20,23,0.08);
+    }
+
+    .palette-labeled small {
+      color: #5e615e;
+      letter-spacing: 0.16em;
+    }
+
+    .note-list {
+      color: #151617;
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    .note-list li::before {
+      color: rgba(12,13,14,0.38);
+    }
+
+    .card-back .combo {
+      color: #343638;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .card-back .combo strong {
+      color: #0c0d0e;
+    }
+
+    .studio-actions {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ghost {
+      font-family: "Courier New", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      background: rgba(249,247,241,0.78);
+      color: #111;
+    }
+
+    .ghost.saved {
+      color: #f7f3ea;
+      background: linear-gradient(135deg, #111a2a, #781d2a);
+      animation: savedPulse 520ms ease both;
+    }
+
+    @keyframes savedPulse {
+      0% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(-3px) scale(1.025); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .upload {
+      border-color: rgba(12,13,14,0.22);
+      background:
+        linear-gradient(135deg, rgba(250,248,242,0.76), rgba(226,228,228,0.72));
+    }
+
+    .inventory-pill,
+    .item-card {
+      border-color: rgba(12,13,14,0.1);
+      background: rgba(249,247,241,0.84);
+    }
+
+    .item-art {
+      height: 126px;
+      background:
+        radial-gradient(circle at 16% 10%, rgba(255,255,255,0.96), transparent 32%),
+        linear-gradient(135deg, rgba(250,248,242,0.95), rgba(205,211,215,0.48));
+    }
+
+    .name-input:focus {
+      background: rgba(255,255,255,0.92);
+      box-shadow: inset 0 0 0 1px rgba(120,29,42,0.26);
+    }
+
+    .delete-item:hover {
+      background: var(--burgundy);
+    }
+
+    .empty-closet {
+      grid-column: 1 / -1;
+      min-height: 190px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 8px;
+      padding: 28px;
+      border-radius: 22px;
+      border: 1px dashed rgba(12,13,14,0.24);
+      background:
+        linear-gradient(135deg, rgba(250,248,242,0.74), rgba(212,218,222,0.42));
+      color: #62635f;
+      text-align: center;
+    }
+
+    .empty-closet strong {
+      color: #111;
+      font-size: 16px;
+    }
+
     @media (max-width: 1180px) {
       .layout {
         grid-template-columns: 1fr;
@@ -1426,10 +1833,10 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="logo">MC</div>
+        <div class="logo">FM</div>
         <div>
-          <h1>Mood Closet</h1>
-          <p class="tagline">A fashion-tech outfit board for today's mood, weather, and scene.</p>
+          <h1><span class="brand-strong">FASHION</span> <span class="brand-soft">mood</span></h1>
+          <p class="tagline">Downtown outfit notes for today's mood, weather, and scene.</p>
         </div>
       </div>
       <div class="status-pill"><span class="dot"></span><span>Prototype mode · AI styling simulated</span></div>
@@ -1496,8 +1903,8 @@
       <section class="panel studio">
         <div class="studio-header">
           <div class="studio-title">
-            <h3>Outfit Generator</h3>
-            <p>Build a clean flat lay look from mood signals and your closet. Drag wardrobe cards into the board or let Mood Closet style the full outfit.</p>
+            <h3>Style Notes Generator</h3>
+            <p>Build a clean flat lay look from mood signals and your closet. Drag wardrobe cards into the board or let FASHION mood style the full outfit.</p>
           </div>
           <span class="status-pill"><span class="dot"></span><span id="lookStatus">Ready to style</span></span>
         </div>
@@ -1515,7 +1922,7 @@
           <div class="style-card-wrap">
             <div class="style-card" id="styleCard">
               <div class="card-face card-front">
-                <div class="card-topline"><span>Today's Outfit</span><span>I · Tarot</span></div>
+                <div class="card-topline"><span>Today's Vibe</span><span>I · Tarot</span></div>
                 <div class="style-name" id="styleName">Modern Ivy</div>
                 <p class="vibe-subtitle" id="vibeSubtitle">Off-grid · Indigo wave</p>
                 <div class="flat-lay" id="flatLay">
@@ -1524,6 +1931,7 @@
                 <div class="tags" id="keywordTags">
                   <span class="tag">Denim</span><span class="tag">Utility</span><span class="tag">Calm</span>
                 </div>
+                <p class="flip-hint">Tap to flip →</p>
                 <div class="condition-strip">
                   <span class="fit-badge" id="fitMood">Mood · Confident</span>
                   <span class="fit-badge" id="fitWeather">Weather · Sunny</span>
@@ -1537,20 +1945,20 @@
                 <div class="palette-labeled" id="palette"></div>
                 <h2>Outfit</h2>
                 <ul class="note-list" id="outfitList"></ul>
+                <h2>Accessories</h2>
+                <ul class="note-list" id="accessoryList"></ul>
                 <h2>Why This Outfit</h2>
                 <p class="combo" id="descriptionText">A precise but relaxed outfit that turns today's signals into a coordinated editorial board.</p>
-                <p class="combo"><strong>Tap to flip back</strong> · suitable for <span id="suitableOccasion">Cafe</span></p>
+                <p class="combo flip-hint-back"><strong>Tap to flip back</strong> · suitable for <span id="suitableOccasion">Cafe</span></p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="studio-actions">
-          <button class="ghost" data-action="regenerate">Regenerate Outfit</button>
-          <button class="ghost" data-action="save">Save to Closet</button>
-          <button class="ghost" data-action="another">Try Another Look</button>
-          <button class="ghost" data-action="download">Download Look</button>
-          <button class="ghost" data-action="share">Share Style Card</button>
+          <button class="ghost" data-action="regenerate">Regenerate</button>
+          <button class="ghost" data-action="save">Save Outfit</button>
+          <button class="ghost" data-action="share">Share Card</button>
         </div>
       </section>
 
@@ -1560,12 +1968,12 @@
             <h3>My Closet</h3>
             <p class="tagline">Upload pieces or drag cards into the outfit board.</p>
           </div>
-          <span class="status-pill"><span id="closetCount">6</span> items</span>
+          <span class="status-pill"><span id="closetCount">0</span> items</span>
         </div>
 
         <label class="upload">
           <input type="file" id="uploadInput" multiple accept="image/*" />
-          <span><strong>Upload closet photos</strong>Images become virtual garment cards</span>
+          <span><strong>Upload closet photos</strong>Images become wardrobe garment cards</span>
         </label>
 
         <div class="inventory-summary" id="inventorySummary"></div>
@@ -1578,60 +1986,188 @@
   <div class="toast" id="toast">Saved</div>
 
   <script>
+    const SAVED_OUTFITS_KEY = "fashionMoodSavedOutfits";
+    ["moodClosetWardrobe", "mood-closet-wardrobe", "fashionMoodWardrobe"].forEach((key) => {
+      localStorage.removeItem(key);
+    });
+
+    const initialClosetItems = [
+      {
+        id: "initial-blue-stripe-shirt",
+        name: "Blue Stripe Shirt",
+        group: "TOP",
+        category: "Shirts",
+        color: "Washed blue",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#8fb0d8",
+        src: "assets/initial-blue-stripe-shirt.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-white-pinstripe-shirt",
+        name: "White Pinstripe Shirt",
+        group: "TOP",
+        category: "Shirts",
+        color: "Ivory",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#f4f0e8",
+        src: "assets/initial-white-pinstripe-shirt.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-navy-leather-jacket",
+        name: "Navy Leather Jacket",
+        group: "TOP",
+        category: "Jackets",
+        color: "Deep navy",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#111a2a",
+        src: "assets/initial-navy-leather-jacket.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-burgundy-zip-jacket",
+        name: "Burgundy Zip Jacket",
+        group: "TOP",
+        category: "Jackets",
+        color: "Burgundy",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#781d2a",
+        src: "assets/initial-burgundy-zip-jacket.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-navy-wide-pants",
+        name: "Navy Wide Pants",
+        group: "BOTTOM",
+        category: "Pants",
+        color: "Navy",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#17233a",
+        src: "assets/initial-navy-wide-pants.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-gray-cargo-shorts",
+        name: "Gray Cargo Shorts",
+        group: "BOTTOM",
+        category: "Shorts",
+        color: "Concrete gray",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#aeb4b8",
+        src: "assets/initial-gray-cargo-shorts.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-camo-cargo-shorts",
+        name: "Camo Cargo Shorts",
+        group: "BOTTOM",
+        category: "Shorts",
+        color: "Olive camo",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#667052",
+        src: "assets/initial-camo-cargo-shorts.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-brown-boat-loafer",
+        name: "Brown Boat Loafer",
+        group: "SHOES",
+        category: "Loafers",
+        color: "Brown leather",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#5c3928",
+        src: "assets/initial-brown-boat-loafer.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-painted-duffle-bag",
+        name: "Painted Duffle Bag",
+        group: "ACCESSORIES",
+        category: "Bags",
+        color: "Brown multi",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#6b422f",
+        src: "assets/initial-painted-duffle-bag.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-tan-tote-bag",
+        name: "Tan Tote Bag",
+        group: "ACCESSORIES",
+        category: "Bags",
+        color: "Tan",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#a36b3d",
+        src: "assets/initial-tan-tote-bag.png",
+        bgSize: "contain",
+        bgPos: "center"
+      },
+      {
+        id: "initial-black-belt",
+        name: "Black Leather Belt",
+        group: "ACCESSORIES",
+        category: "Belts",
+        color: "Black",
+        tags: ["Initial", "Auto sorted"],
+        hex: "#0c0d0e",
+        src: "assets/initial-black-belt.png",
+        bgSize: "contain",
+        bgPos: "center"
+      }
+    ];
+
     const state = {
       mood: "Confident",
       weather: "Sunny",
       occasion: "Cafe",
       currentLook: 0,
       outfit: {},
-      closet: [
-        { name: "Blue Stripe Shirt", group: "TOP", category: "Shirts", color: "Sky blue", tags: ["Ivy", "Clean"], hex: "#9ebbe9", src: "assets/closet-board-1.png", bgSize: "285%", bgPos: "7% 5%" },
-        { name: "Burgundy Zip Jacket", group: "TOP", category: "Jackets", color: "Burgundy", tags: ["Bold", "Outer"], hex: "#621722", src: "assets/closet-board-1.png", bgSize: "310%", bgPos: "5% 46%" },
-        { name: "Navy Wide Pants", group: "BOTTOM", category: "Pants", color: "Navy", tags: ["Work", "Relaxed"], hex: "#18233a", src: "assets/closet-board-1.png", bgSize: "285%", bgPos: "50% 52%" },
-        { name: "Leather Duffle Bag", group: "ACCESSORIES", category: "Bags", color: "Brown", tags: ["Travel", "Heritage"], hex: "#8c5631", src: "assets/closet-board-1.png", bgSize: "300%", bgPos: "91% 20%" },
-        { name: "Brown Loafer", group: "SHOES", category: "Loafers", color: "Brown", tags: ["Classic", "Ivy"], hex: "#714123", src: "assets/closet-board-1.png", bgSize: "330%", bgPos: "50% 93%" },
-        { name: "Silver Chain", group: "ACCESSORIES", category: "Necklaces", color: "Silver", tags: ["Accent", "Clean"], hex: "#c9ccd1", src: "assets/closet-board-1.png", bgSize: "330%", bgPos: "7% 94%" },
-        { name: "White Pinstripe Shirt", group: "TOP", category: "Shirts", color: "White", tags: ["Minimal", "Work"], hex: "#f5f2eb", src: "assets/closet-board-2.png", bgSize: "255%", bgPos: "7% 7%" },
-        { name: "Gray Cargo Shorts", group: "BOTTOM", category: "Shorts", color: "Gray", tags: ["Summer", "Utility"], hex: "#b9bab5", src: "assets/closet-board-2.png", bgSize: "245%", bgPos: "92% 5%" },
-        { name: "Camo Cargo Shorts", group: "BOTTOM", category: "Shorts", color: "Olive", tags: ["Street", "Utility"], hex: "#777b5b", src: "assets/camo-shorts.png", bgSize: "cover", bgPos: "center" },
-        { name: "Brown Boat Loafer", group: "SHOES", category: "Loafers", color: "Brown", tags: ["Travel", "Casual"], hex: "#5c3928", src: "assets/closet-board-2.png", bgSize: "265%", bgPos: "72% 48%" },
-        { name: "Brown Crossbody Bag", group: "ACCESSORIES", category: "Bags", color: "Brown", tags: ["Daily", "Soft"], hex: "#5a4439", src: "assets/closet-board-2.png", bgSize: "255%", bgPos: "8% 90%" },
-        { name: "Tortoise Glasses", group: "ACCESSORIES", category: "Glasses", color: "Tortoise", tags: ["Smart", "Detail"], hex: "#3c2d25", src: "assets/closet-board-2.png", bgSize: "280%", bgPos: "92% 92%" }
-      ]
+      currentStyle: null,
+      closet: initialClosetItems.map((item) => ({ ...item }))
     };
 
     const styleDeck = [
       {
-        name: "City Prep",
-        subtitle: "Pinstripe · polished utility",
-        keywords: ["Ivy", "Utility", "Composed", "Daily"],
-        desc: "A crisp shirt and structured bottom keep the look editorial, while brown leather anchors it for real movement.",
-        manifesto: "Let the outfit feel planned, not precious.",
-        colors: [["#1b2d52", "Raw indigo"], ["#f5f2eb", "Foam"], ["#7a573d", "Leather"], ["#a5abb2", "Steel"]]
-      },
-      {
-        name: "Modern Ivy",
-        subtitle: "Off-grid · indigo wave",
-        keywords: ["Denim", "Calm", "Academic", "Clean"],
-        desc: "Classic proportions with softer texture: easy enough for daytime, sharp enough for plans after.",
-        manifesto: "Quiet pieces can still have a point of view.",
-        colors: [["#203050", "Navy"], ["#f7f3ee", "Cream"], ["#8c5631", "Saddle"], ["#c9ccd1", "Silver"]]
-      },
-      {
-        name: "Soft Business Casual",
+        name: "Downtown Prep",
         subtitle: "White space · leather note",
-        keywords: ["Minimal", "Work", "Warm", "Precise"],
-        desc: "The clean top gives air, the muted bottom gives structure, and leather accessories keep the board grounded.",
-        manifesto: "Wear ease like a quiet luxury.",
-        colors: [["#f6f2ea", "White"], ["#b8b9b4", "Soft gray"], ["#5c3928", "Brown"], ["#111111", "Black"]]
+        keywords: ["Denim", "Chrome", "Sharp", "After school"],
+        desc: "A clean top opens the frame, the bottom sets the silhouette, and leather or chrome details give the look its street-level rhythm.",
+        manifesto: "Keep the outfit quiet, then let one detail talk back.",
+        colors: [["#111418", "Blacktop"], ["#f5f2eb", "Ivory"], ["#536b83", "Washed denim"], ["#7b1e2b", "Burgundy"]]
       },
       {
-        name: "Summer Academic",
-        subtitle: "Camo utility · clean study",
-        keywords: ["Summer", "Utility", "Street", "Light"],
-        desc: "A clean shirt balances camo shorts and brown shoes, making the outfit feel considered rather than casual by accident.",
-        manifesto: "Keep it light. Make every object earn its place.",
-        colors: [["#777b5b", "Olive"], ["#f5f2eb", "Foam"], ["#5c3928", "Brown"], ["#202020", "Ink"]]
+        name: "Indigo Static",
+        subtitle: "Washed denim · silver line",
+        keywords: ["Street", "Utility", "Music", "Cool"],
+        desc: "The board uses relaxed proportions and one metallic accent so the outfit feels ready for a train platform, studio hallway, or late cafe table.",
+        manifesto: "Wear the day like a track you already know.",
+        colors: [["#142033", "Deep navy"], ["#697784", "Muted gray"], ["#c7ccd0", "Chrome"], ["#f4f0e8", "Paper"]]
+      },
+      {
+        name: "Burgundy Signal",
+        subtitle: "Black type · red accent",
+        keywords: ["Bold", "Night", "Downtown", "Lean"],
+        desc: "A grounded base lets the accent color hit harder, giving the outfit a small rebellious pulse without turning it into costume.",
+        manifesto: "Not loud. Just impossible to ignore.",
+        colors: [["#0d0d0d", "Ink"], ["#7b1e2b", "Burgundy"], ["#8d9498", "Concrete"], ["#ebe7df", "Off white"]]
+      },
+      {
+        name: "Off Duty Archive",
+        subtitle: "Pale gray · campus noise",
+        keywords: ["Campus", "Minimal", "Archive", "Clean"],
+        desc: "The outfit keeps its negative space, then uses accessories as small notes around the main silhouette.",
+        manifesto: "Leave room around the clothes. That is part of the fit.",
+        colors: [["#f4f0e8", "Ivory"], ["#b8bec3", "Pale steel"], ["#405772", "Washed blue"], ["#161a22", "Navy black"]]
       }
     ];
 
@@ -1675,6 +2211,17 @@
     function renderCloset() {
       const grid = $("#closetGrid");
       grid.innerHTML = "";
+      if (!state.closet.length) {
+        grid.innerHTML = `
+          <div class="empty-closet">
+            <strong>No wardrobe items yet.</strong>
+            <span>Upload your clothes to build today's look.</span>
+          </div>
+        `;
+        $("#closetCount").textContent = "0";
+        renderInventory();
+        return;
+      }
       state.closet.forEach((item, index) => {
         const card = document.createElement("div");
         card.className = "item-card";
@@ -1809,6 +2356,7 @@
         const items = byGroup(group);
         const preferred = items.filter(preference);
         const pool = preferred.length ? preferred : items;
+        if (!pool.length) return null;
         return pool[(seed + state.currentLook + pool.length) % pool.length];
       };
       const pickMany = (group, limit, preference = () => true) => {
@@ -1831,8 +2379,13 @@
     }
 
     function renderOutfitList() {
-      const items = [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes, state.outfit.bag, ...(state.outfit.accessories || [])].filter(Boolean);
-      $("#outfitList").innerHTML = items.map((item, index) => {
+      const outfitItems = [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes].filter(Boolean);
+      const accessoryItems = [state.outfit.bag, ...(state.outfit.accessories || [])].filter(Boolean);
+      $("#outfitList").innerHTML = outfitItems.map((item, index) => {
+        const number = String(index + 1).padStart(2, "0");
+        return `<li data-index="${number}">${item.name}</li>`;
+      }).join("");
+      $("#accessoryList").innerHTML = accessoryItems.map((item, index) => {
         const number = String(index + 1).padStart(2, "0");
         return `<li data-index="${number}">${item.name}</li>`;
       }).join("");
@@ -1850,8 +2403,9 @@
       ].filter(([, item]) => item);
 
       if (!pieces.length) {
-        flatLay.innerHTML = `<div class="empty-lay">Generate an outfit or drag wardrobe items here.</div>`;
+        flatLay.innerHTML = `<div class="empty-lay">Upload wardrobe items, then generate or drag pieces here.</div>`;
         $("#outfitList").innerHTML = "";
+        $("#accessoryList").innerHTML = "";
         return;
       }
 
@@ -1888,6 +2442,8 @@
       $("#lookStatus").textContent = "Styling...";
       const seed = state.mood.length + state.weather.length + state.occasion.length + state.currentLook + offset;
       const look = styleDeck[seed % styleDeck.length];
+      state.currentStyle = look;
+      resetSaveButton();
       setTimeout(() => {
         state.outfit = selectItems(seed % styleDeck.length);
         $("#styleName").textContent = look.name;
@@ -1900,8 +2456,81 @@
         renderFlatLay();
         $("#lookStatus").textContent = "Look generated";
         loading.classList.remove("active");
-        showToast(`${look.name} generated`);
+        showToast(state.closet.length ? `${look.name} generated` : "Upload wardrobe items to generate a full look");
       }, 850);
+    }
+
+    function getCurrentOutfitItems() {
+      return [state.outfit.top, state.outfit.outer, state.outfit.bottom, state.outfit.shoes, state.outfit.bag, ...(state.outfit.accessories || [])]
+        .filter(Boolean)
+        .filter((item, index, list) => list.indexOf(item) === index);
+    }
+
+    function getCurrentPalette() {
+      const look = state.currentStyle || styleDeck[0];
+      return look.colors.map(([color, label]) => ({ color, label }));
+    }
+
+    function saveCurrentOutfit(button) {
+      const outfitItems = getCurrentOutfitItems();
+      const outfit = {
+        styleName: $("#styleName").textContent,
+        mood: state.mood,
+        weather: state.weather,
+        occasion: state.occasion,
+        wardrobeItemIds: outfitItems.map((item) => item.id),
+        palette: getCurrentPalette(),
+        timestamp: new Date().toISOString()
+      };
+      const saved = JSON.parse(localStorage.getItem(SAVED_OUTFITS_KEY) || "[]");
+      saved.unshift(outfit);
+      localStorage.setItem(SAVED_OUTFITS_KEY, JSON.stringify(saved.slice(0, 30)));
+      button.textContent = "Saved";
+      button.classList.add("saved");
+      showToast("Outfit saved");
+    }
+
+    function resetSaveButton() {
+      const saveButton = document.querySelector('[data-action="save"]');
+      if (!saveButton) return;
+      saveButton.textContent = "Save Outfit";
+      saveButton.classList.remove("saved");
+    }
+
+    function buildOutfitSummary() {
+      const outfitItems = getCurrentOutfitItems();
+      const pieces = outfitItems.length ? outfitItems.map((item) => `- ${item.name} (${item.group} / ${item.category})`).join("\n") : "- No wardrobe items selected yet";
+      return [
+        `FASHION mood: ${$("#styleName").textContent}`,
+        `Mood: ${state.mood}`,
+        `Weather: ${state.weather}`,
+        `Occasion: ${state.occasion}`,
+        "Outfit:",
+        pieces,
+        `Palette: ${getCurrentPalette().map((item) => item.label).join(", ")}`
+      ].join("\n");
+    }
+
+    async function shareCurrentOutfit() {
+      const text = buildOutfitSummary();
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "FASHION mood outfit",
+            text
+          });
+          showToast("Share sheet opened");
+          return;
+        } catch (error) {
+          if (error.name === "AbortError") return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Outfit copied to clipboard.");
+      } catch (error) {
+        showToast("Copy failed. Select and copy the outfit notes manually.");
+      }
     }
 
     function showToast(message) {
@@ -1914,16 +2543,42 @@
 
     function categorizeUpload(file, index) {
       const name = file.name.toLowerCase();
-      if (/jacket|coat|outer|zip|blouson/.test(name)) return ["TOP", "Jackets"];
+      if (/jacket|coat|outer|zip|blouson|bomber/.test(name)) return ["TOP", "Jackets"];
       if (/shirt|tee|t-shirt|top|tank|knit/.test(name)) return ["TOP", name.includes("tee") || name.includes("t-shirt") ? "T-shirts" : "Shirts"];
       if (/short/.test(name)) return ["BOTTOM", "Shorts"];
       if (/pant|trouser|denim|jean/.test(name)) return ["BOTTOM", "Pants"];
       if (/loafer|shoe|sneaker|boot/.test(name)) return ["SHOES", name.includes("sneaker") ? "Sneakers" : "Loafers"];
-      if (/bag|duffle|tote/.test(name)) return ["ACCESSORIES", "Bags"];
+      if (/bag|duffle|tote|pouch/.test(name)) return ["ACCESSORIES", "Bags"];
       if (/glass/.test(name)) return ["ACCESSORIES", "Glasses"];
       if (/cap|hat|beanie/.test(name)) return ["ACCESSORIES", "Caps"];
       if (/necklace|chain/.test(name)) return ["ACCESSORIES", "Necklaces"];
+      if (/belt/.test(name)) return ["ACCESSORIES", "Belts"];
+      if (/watch/.test(name)) return ["ACCESSORIES", "Watches"];
+      if (/wallet|card/.test(name)) return ["ACCESSORIES", "Wallets"];
       return [["TOP", "Shirts"], ["BOTTOM", "Pants"], ["SHOES", "Sneakers"], ["ACCESSORIES", "Bags"]][index % 4];
+    }
+
+    function uploadDisplayName(file, group, category, index) {
+      const raw = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim();
+      const generic = !raw || /^(img|image|photo|screenshot|screen shot|截屏|스크린샷)\s*\d*$/i.test(raw);
+      if (!generic) return raw.slice(0, 24);
+      const fallback = {
+        Shirts: "Uploaded Shirt",
+        "T-shirts": "Uploaded T-shirt",
+        Jackets: "Uploaded Jacket",
+        Pants: "Uploaded Pants",
+        Shorts: "Uploaded Shorts",
+        Loafers: "Uploaded Loafers",
+        Sneakers: "Uploaded Sneakers",
+        Bags: "Uploaded Bag",
+        Glasses: "Uploaded Glasses",
+        Caps: "Uploaded Cap",
+        Necklaces: "Uploaded Necklace",
+        Watches: "Uploaded Watch",
+        Belts: "Uploaded Belt",
+        Wallets: "Uploaded Wallet"
+      };
+      return fallback[category] || `Uploaded ${group.toLowerCase()} ${index + 1}`;
     }
 
     $$("[data-group]").forEach((groupEl) => {
@@ -1938,9 +2593,10 @@
       const files = [...event.target.files];
       files.forEach((file, index) => {
         const [group, category] = categorizeUpload(file, index);
-        const colorPool = ["#111111", "#f4efe8", "#b7a6ff", "#215cff", "#ffd5df", "#cfd5df"];
+        const colorPool = ["#0c0d0e", "#f4f0e8", "#536b83", "#111a2a", "#781d2a", "#c9cdd0"];
         state.closet.unshift({
-          name: file.name.replace(/\.[^/.]+$/, "").slice(0, 24) || "Uploaded Piece",
+          id: `${Date.now()}-${index}-${Math.random().toString(36).slice(2)}`,
+          name: uploadDisplayName(file, group, category, index),
           group,
           category,
           color: "Detected",
@@ -1983,12 +2639,8 @@
           generateLook(1);
           return;
         }
-        const labels = {
-          save: "Outfit saved to closet",
-          download: "Download mockup prepared",
-          share: "Share card copied as prototype link"
-        };
-        showToast(labels[action]);
+        if (action === "save") saveCurrentOutfit(button);
+        if (action === "share") shareCurrentOutfit();
       });
     });
 
