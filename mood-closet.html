@@ -267,6 +267,68 @@
       color: var(--muted);
     }
 
+    /* Temperature module: emphasized because garment weight changes by actual degrees. */
+    .temperature-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .temperature-card {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(20,20,20,0.1);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.76), rgba(223,227,234,0.36));
+      color: var(--ink);
+      text-align: left;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
+    }
+
+    .temperature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(35,31,28,0.12);
+    }
+
+    .temperature-card.active {
+      border-color: rgba(33,92,255,0.28);
+      background:
+        linear-gradient(135deg, rgba(17,17,17,0.96), rgba(33,92,255,0.72)),
+        radial-gradient(circle at 88% 10%, rgba(255,255,255,0.24), transparent 30%);
+      color: white;
+      box-shadow: 0 18px 36px rgba(33,92,255,0.22);
+    }
+
+    .temperature-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .temperature-range {
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      opacity: 0.82;
+    }
+
+    .temperature-note {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .temperature-card.active .temperature-note {
+      color: rgba(255,255,255,0.72);
+    }
+
     .mode-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -359,6 +421,13 @@
     .primary:hover {
       transform: translateY(-3px);
       filter: saturate(1.12);
+    }
+
+    .primary.is-disabled {
+      opacity: 0.54;
+      filter: grayscale(0.22);
+      cursor: not-allowed;
+      transform: none;
     }
 
     .studio {
@@ -1042,6 +1111,140 @@
       transform: translate(-50%, 0);
     }
 
+    .editor-panel {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 80;
+      width: min(330px, calc(100vw - 28px));
+      padding: 12px;
+      border: 1px solid rgba(12,13,14,0.14);
+      border-radius: 22px;
+      background:
+        linear-gradient(145deg, rgba(250,248,242,0.94), rgba(224,229,231,0.88));
+      box-shadow: 0 22px 48px rgba(18,20,23,0.18);
+      backdrop-filter: blur(14px);
+    }
+
+    .editor-panel,
+    .editor-panel * {
+      user-select: none;
+    }
+
+    .editor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .editor-title {
+      display: grid;
+      gap: 2px;
+    }
+
+    .editor-title strong {
+      color: #0c0d0e;
+      font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .editor-title span,
+    .editor-help {
+      color: #5e615e;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .editor-switch {
+      position: relative;
+      width: 54px;
+      height: 30px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(12,13,14,0.16);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      transition: 220ms ease;
+    }
+
+    .editor-switch::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #111a2a;
+      box-shadow: 0 8px 16px rgba(18,20,23,0.18);
+      transition: 220ms ease;
+    }
+
+    .editor-switch.active {
+      background: linear-gradient(135deg, #111a2a, #781d2a);
+    }
+
+    .editor-switch.active::after {
+      left: 28px;
+      background: #f7f3ea;
+    }
+
+    .editor-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .editor-action {
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(12,13,14,0.12);
+      background: rgba(249,247,241,0.86);
+      color: #111;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: 180ms ease;
+    }
+
+    .editor-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(18,20,23,0.12);
+    }
+
+    .editor-help {
+      display: none;
+      margin: 10px 3px 0;
+    }
+
+    body.edit-mode .editor-help {
+      display: block;
+    }
+
+    body.edit-mode [data-editable-text] {
+      cursor: text;
+      outline: 1px dashed rgba(64,95,130,0.18);
+      outline-offset: 3px;
+      transition: outline-color 180ms ease, background 180ms ease;
+    }
+
+    body.edit-mode [data-editable-text]:hover,
+    [data-editable-text].editing {
+      border-radius: 8px;
+      outline-color: rgba(120,29,42,0.64);
+      background: rgba(255,255,255,0.56);
+    }
+
+    [data-editable-text][contenteditable="true"] {
+      user-select: text;
+      -webkit-user-select: text;
+      caret-color: #781d2a;
+    }
+
     .generator-note {
       margin: 0 0 14px;
       color: var(--muted);
@@ -1482,12 +1685,58 @@
       box-shadow: inset 0 0 0 1px rgba(64,95,130,0.34), 0 14px 28px rgba(18,20,23,0.1);
     }
 
+    .temperature-section {
+      position: relative;
+      padding: 22px 0;
+    }
+
+    .temperature-section::before {
+      content: "";
+      position: absolute;
+      inset: 12px -10px;
+      z-index: -1;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 85% 0%, rgba(120,29,42,0.12), transparent 32%),
+        linear-gradient(135deg, rgba(249,247,241,0.58), rgba(201,205,208,0.22));
+      pointer-events: none;
+    }
+
+    .temperature-card {
+      border-color: rgba(12,13,14,0.14);
+      background:
+        linear-gradient(135deg, rgba(249,247,241,0.9), rgba(218,224,227,0.58));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.42);
+    }
+
+    .temperature-card:hover {
+      box-shadow: 0 16px 30px rgba(18,20,23,0.14);
+    }
+
+    .temperature-card.active {
+      border-color: rgba(12,13,14,0.28);
+      background:
+        linear-gradient(135deg, #090a0c 0%, #13223a 62%, #781d2a 100%);
+      color: #f7f3ea;
+      box-shadow: 0 18px 36px rgba(17,26,42,0.26);
+    }
+
+    .temperature-note {
+      color: #666864;
+    }
+
     .primary {
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #f7f3ea;
       background: linear-gradient(135deg, #090a0c 0%, #16243a 62%, #781d2a 100%);
       box-shadow: 0 20px 44px rgba(17,26,42,0.28);
+    }
+
+    .primary.is-disabled {
+      opacity: 0.48;
+      background: linear-gradient(135deg, #4f5355, #8c9294);
+      box-shadow: none;
     }
 
     .studio {
@@ -1831,12 +2080,27 @@
 </head>
 <body>
   <main class="app">
+    <div class="editor-panel" id="editorPanel">
+      <div class="editor-row">
+        <div class="editor-title">
+          <strong>Text Edit</strong>
+          <span id="editorModeLabel">Edit mode off</span>
+        </div>
+        <button class="editor-switch" id="editToggle" type="button" aria-pressed="false" aria-label="Toggle text edit mode"></button>
+      </div>
+      <div class="editor-actions">
+        <button class="editor-action" id="saveTextEdits" type="button">Save</button>
+        <button class="editor-action" id="exportHtml" type="button">Export HTML</button>
+      </div>
+      <p class="editor-help">Click any highlighted text to rewrite it. Press Enter or click outside to finish.</p>
+    </div>
+
     <header class="topbar">
       <div class="brand">
         <div class="logo">FM</div>
         <div>
           <h1><span class="brand-strong">FASHION</span> <span class="brand-soft">mood</span></h1>
-          <p class="tagline">Downtown outfit notes for today's mood, weather, and scene.</p>
+          <p class="tagline">Downtown outfit notes for today's mood, weather, temperature, and scene.</p>
         </div>
       </div>
       <div class="status-pill"><span class="dot"></span><span>Prototype mode · AI styling simulated</span></div>
@@ -1874,6 +2138,36 @@
           </div>
         </div>
 
+        <!-- Temperature is required before generation because it changes garment weight and layering. -->
+        <div class="section temperature-section">
+          <div class="section-head">
+            <h2>Temperature</h2>
+            <span class="micro" id="temperatureValue">Select range</span>
+          </div>
+          <div class="temperature-grid" data-group="temperature">
+            <button class="temperature-card" data-value="Cold">
+              <span class="temperature-label">Cold <span class="temperature-range">0-9°C</span></span>
+              <span class="temperature-note">Coat, padded jacket, knitwear, scarf, boots</span>
+            </button>
+            <button class="temperature-card" data-value="Cool">
+              <span class="temperature-label">Cool <span class="temperature-range">10-16°C</span></span>
+              <span class="temperature-note">Jacket, cardigan, hoodie, long pants</span>
+            </button>
+            <button class="temperature-card" data-value="Mild">
+              <span class="temperature-label">Mild <span class="temperature-range">17-22°C</span></span>
+              <span class="temperature-note">Light jacket, shirt, denim, sneakers</span>
+            </button>
+            <button class="temperature-card" data-value="Warm">
+              <span class="temperature-label">Warm <span class="temperature-range">23-27°C</span></span>
+              <span class="temperature-note">T-shirt, light shirt, skirt, shorts, sandals</span>
+            </button>
+            <button class="temperature-card" data-value="Hot">
+              <span class="temperature-label">Hot <span class="temperature-range">28°C+</span></span>
+              <span class="temperature-note">Sleeveless, linen, shorts, breathable pieces</span>
+            </button>
+          </div>
+        </div>
+
         <div class="section">
           <div class="section-head">
             <h2>Occasion</h2>
@@ -1895,8 +2189,8 @@
             <h2>Outfit Generator</h2>
             <span class="micro">Flat lay mode</span>
           </div>
-          <p class="generator-note">Generate a complete editorial outfit board from today's mood, weather, occasion, and your wardrobe inventory.</p>
-          <button class="primary" id="generateBtn">Generate Outfit</button>
+          <p class="generator-note">Choose mood, weather, temperature, and occasion to generate a complete editorial outfit board from your wardrobe inventory.</p>
+          <button class="primary is-disabled" id="generateBtn" aria-disabled="true">Generate Outfit</button>
         </div>
       </aside>
 
@@ -1904,7 +2198,7 @@
         <div class="studio-header">
           <div class="studio-title">
             <h3>Style Notes Generator</h3>
-            <p>Build a clean flat lay look from mood signals and your closet. Drag wardrobe cards into the board or let FASHION mood style the full outfit.</p>
+            <p>Build a clean flat lay look from mood, weather, temperature, and your closet. Drag wardrobe cards into the board or let FASHION mood style the full outfit.</p>
           </div>
           <span class="status-pill"><span class="dot"></span><span id="lookStatus">Ready to style</span></span>
         </div>
@@ -1935,6 +2229,7 @@
                 <div class="condition-strip">
                   <span class="fit-badge" id="fitMood">Mood · Confident</span>
                   <span class="fit-badge" id="fitWeather">Weather · Sunny</span>
+                  <span class="fit-badge" id="fitTemperature">Temperature · Select range</span>
                   <span class="fit-badge" id="fitOccasion">Stage · Cafe</span>
                 </div>
               </div>
@@ -1943,7 +2238,7 @@
                 <p class="back-quote" id="manifestoTitle">Quiet pieces, sharp rhythm, and a bag that makes the day feel planned.</p>
                 <h2>Palette</h2>
                 <div class="palette-labeled" id="palette"></div>
-                <h2>Outfit</h2>
+                <h2>Recommended Outfit Items</h2>
                 <ul class="note-list" id="outfitList"></ul>
                 <h2>Accessories</h2>
                 <ul class="note-list" id="accessoryList"></ul>
@@ -1987,6 +2282,8 @@
 
   <script>
     const SAVED_OUTFITS_KEY = "fashionMoodSavedOutfits";
+    const TEXT_EDITS_KEY = "fashionMoodTextEdits";
+    const EDITABLE_TEXT_SELECTOR = "h1, h2, h3, p, span, strong, small, li, button:not(.editor-switch):not(.editor-action)";
     ["moodClosetWardrobe", "mood-closet-wardrobe", "fashionMoodWardrobe"].forEach((key) => {
       localStorage.removeItem(key);
     });
@@ -2129,6 +2426,7 @@
     const state = {
       mood: "Confident",
       weather: "Sunny",
+      temperature: "",
       occasion: "Cafe",
       currentLook: 0,
       outfit: {},
@@ -2174,22 +2472,235 @@
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
     const groupOrder = ["TOP", "BOTTOM", "SHOES", "ACCESSORIES"];
+    // Temperature strongly affects garment weight, coverage, and layering.
+    const temperatureProfiles = {
+      Cold: {
+        range: "0-9°C",
+        subtitle: "Cold air · insulated layers",
+        items: ["coat", "padded jacket", "knitwear", "scarf", "boots"],
+        keywords: ["Insulated", "Layered", "Heavy", "Protected"],
+        needsOuter: true,
+        preferJacket: true,
+        preferLongBottom: true,
+        preferShorts: false,
+        desc: "Low temperature calls for real insulation: a jacket or outer layer, long bottoms, and grounded accessories that keep the silhouette protected."
+      },
+      Cool: {
+        range: "10-16°C",
+        subtitle: "Cool day · structured layer",
+        items: ["jacket", "cardigan", "hoodie", "long pants"],
+        keywords: ["Layer", "Cardigan", "Long pants", "Crisp"],
+        needsOuter: true,
+        preferJacket: true,
+        preferLongBottom: true,
+        preferShorts: false,
+        desc: "Cool weather works best with a visible layer and long pants, so the outfit keeps shape without feeling overbuilt."
+      },
+      Mild: {
+        range: "17-22°C",
+        subtitle: "Mild air · light structure",
+        items: ["light jacket", "shirt", "blouse", "denim", "sneakers"],
+        keywords: ["Light layer", "Denim", "Sneakers", "Balanced"],
+        needsOuter: false,
+        preferJacket: false,
+        preferLongBottom: true,
+        preferShorts: false,
+        desc: "Mild temperature leaves room for shirts, denim, and lighter layers: enough structure for the day without heavy insulation."
+      },
+      Warm: {
+        range: "23-27°C",
+        subtitle: "Warm light · breathable shape",
+        items: ["T-shirt", "light shirt", "skirt", "shorts", "sandals"],
+        keywords: ["Shorts", "Light shirt", "Breathable", "Easy"],
+        needsOuter: false,
+        preferJacket: false,
+        preferLongBottom: false,
+        preferShorts: true,
+        desc: "Warm weather favors lighter tops and shorter bottoms, keeping the outfit breathable while the accessories carry the styling note."
+      },
+      Hot: {
+        range: "28°C+",
+        subtitle: "Heat wave · minimal layers",
+        items: ["sleeveless top", "short sleeve", "linen", "shorts", "breathable items"],
+        keywords: ["Heat", "Sleeveless", "Shorts", "Airy"],
+        needsOuter: false,
+        preferJacket: false,
+        preferLongBottom: false,
+        preferShorts: true,
+        desc: "High temperature removes unnecessary layers. The look should feel airy, washable, and easy to move through."
+      }
+    };
     const categoryMap = {
       TOP: ["Shirts", "T-shirts", "Jackets"],
       BOTTOM: ["Pants", "Shorts"],
       SHOES: ["Loafers", "Sneakers"],
       ACCESSORIES: ["Bags", "Glasses", "Caps", "Necklaces", "Watches", "Belts", "Wallets"]
     };
+    let editMode = false;
+    let activeTextEditor = null;
+
+    function elementPath(element) {
+      const parts = [];
+      let node = element;
+      while (node && node.nodeType === 1 && node !== document.body) {
+        const parent = node.parentElement;
+        if (!parent) break;
+        const siblings = [...parent.children].filter((child) => child.tagName === node.tagName);
+        const index = siblings.indexOf(node) + 1;
+        parts.unshift(`${node.tagName.toLowerCase()}:nth-of-type(${index})`);
+        node = parent;
+      }
+      return parts.join(">");
+    }
+
+    function editKeySelector(key) {
+      const escaped = window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      return `[data-edit-key="${escaped}"]`;
+    }
+
+    function isEditableTextElement(element) {
+      if (!element || element.closest("#editorPanel")) return false;
+      if (element.closest("input, select, textarea, .closet-editors, .delete-item")) return false;
+      if (!element.matches(EDITABLE_TEXT_SELECTOR)) return false;
+      const hasEditableChild = [...element.children].some((child) => child.matches?.(EDITABLE_TEXT_SELECTOR));
+      if (hasEditableChild) return false;
+      return Boolean(element.textContent.trim());
+    }
+
+    function markEditableText() {
+      document.querySelectorAll(EDITABLE_TEXT_SELECTOR).forEach((element) => {
+        if (!isEditableTextElement(element)) return;
+        if (!element.dataset.editKey) element.dataset.editKey = elementPath(element);
+        element.dataset.editableText = "true";
+      });
+      applySavedTextEdits();
+    }
+
+    function readTextEdits() {
+      try {
+        return JSON.parse(localStorage.getItem(TEXT_EDITS_KEY) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function writeTextEdits(edits) {
+      localStorage.setItem(TEXT_EDITS_KEY, JSON.stringify(edits));
+    }
+
+    function applySavedTextEdits(edits = readTextEdits()) {
+      Object.entries(edits).forEach(([key, value]) => {
+        const element = document.querySelector(editKeySelector(key));
+        if (element && element.textContent !== value) element.textContent = value;
+      });
+    }
+
+    function finishTextEditing() {
+      if (!activeTextEditor) return;
+      activeTextEditor.classList.remove("editing");
+      activeTextEditor.removeAttribute("contenteditable");
+      activeTextEditor = null;
+    }
+
+    function startTextEditing(element) {
+      if (!element || element === activeTextEditor) return;
+      finishTextEditing();
+      element.setAttribute("contenteditable", "true");
+      element.classList.add("editing");
+      activeTextEditor = element;
+      element.focus();
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    function setEditMode(enabled) {
+      editMode = enabled;
+      finishTextEditing();
+      document.body.classList.toggle("edit-mode", editMode);
+      $("#editToggle").classList.toggle("active", editMode);
+      $("#editToggle").setAttribute("aria-pressed", String(editMode));
+      $("#editorModeLabel").textContent = editMode ? "Edit mode on" : "Edit mode off";
+      markEditableText();
+      showToast(editMode ? "Text edit mode on" : "Text edit mode off");
+    }
+
+    function saveTextEdits(showMessage = true) {
+      finishTextEditing();
+      markEditableText();
+      const edits = {};
+      document.querySelectorAll("[data-editable-text][data-edit-key]").forEach((element) => {
+        edits[element.dataset.editKey] = element.textContent;
+      });
+      writeTextEdits(edits);
+      if (showMessage) showToast("Text edits saved");
+      return edits;
+    }
+
+    function exportEditedHtml() {
+      const edits = saveTextEdits(false);
+      const clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll("[contenteditable]").forEach((element) => element.removeAttribute("contenteditable"));
+      clone.querySelectorAll(".editing").forEach((element) => element.classList.remove("editing"));
+      clone.querySelector("body")?.classList.remove("edit-mode");
+      clone.querySelector("#editToggle")?.classList.remove("active");
+      const exportScript = clone.ownerDocument.createElement("script");
+      exportScript.textContent = `
+        window.FASHION_MOOD_EXPORTED_TEXT_EDITS = ${JSON.stringify(edits)};
+        window.addEventListener("load", () => {
+          const edits = window.FASHION_MOOD_EXPORTED_TEXT_EDITS || {};
+          const apply = () => Object.entries(edits).forEach(([key, value]) => {
+            const selector = "[data-edit-key=\\\"" + (window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/"/g, "\\\\\\\"")) + "\\\"]";
+            const element = document.querySelector(selector);
+            if (element) element.textContent = value;
+          });
+          apply();
+          setTimeout(apply, 950);
+        });
+      `;
+      clone.querySelector("body").appendChild(exportScript);
+      const html = `<!DOCTYPE html>\n${clone.outerHTML}`;
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `fashion-mood-edited-${new Date().toISOString().slice(0, 10)}.html`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      showToast("Edited HTML exported");
+    }
 
     function setGroup(group, value) {
       state[group] = value;
-      document.getElementById(`${group}Value`).textContent = value;
-      const label = group === "occasion" ? "Stage" : group[0].toUpperCase() + group.slice(1);
-      document.getElementById(`fit${group[0].toUpperCase() + group.slice(1)}`).textContent = `${label} · ${value}`;
+      const profile = group === "temperature" ? temperatureProfiles[value] : null;
+      document.getElementById(`${group}Value`).textContent = profile ? `${value} · ${profile.range}` : value;
+      const label = group === "occasion" ? "Stage" : group === "temperature" ? "Temperature" : group[0].toUpperCase() + group.slice(1);
+      document.getElementById(`fit${group[0].toUpperCase() + group.slice(1)}`).textContent = `${label} · ${profile ? `${value} ${profile.range}` : value}`;
       if (group === "occasion") $("#suitableOccasion").textContent = value;
       document.querySelectorAll(`[data-group="${group}"] button`).forEach((button) => {
         button.classList.toggle("active", button.dataset.value === value);
       });
+      updateGenerateState();
+      markEditableText();
+    }
+
+    function missingSelections() {
+      return ["mood", "weather", "temperature", "occasion"].filter((key) => !state[key]);
+    }
+
+    function updateGenerateState() {
+      const missing = missingSelections();
+      const button = $("#generateBtn");
+      const ready = missing.length === 0;
+      button.classList.toggle("is-disabled", !ready);
+      button.setAttribute("aria-disabled", String(!ready));
+      button.title = ready ? "Generate today's style mood card" : "Choose mood, weather, temperature, and occasion first";
+      $("#lookStatus").textContent = ready ? "Ready to style" : "Select temperature";
     }
 
     function imageStyle(item) {
@@ -2285,6 +2796,7 @@
       });
       $("#closetCount").textContent = state.closet.length;
       renderInventory();
+      markEditableText();
     }
 
     function deleteClosetItem(index) {
@@ -2366,15 +2878,33 @@
         const start = pool.length ? seed % pool.length : 0;
         return pool.slice(start).concat(pool.slice(0, start)).slice(0, limit);
       };
-      const needsJacket = state.weather === "Cold" || state.weather === "Rainy" || state.occasion === "Night Out";
+      const temp = temperatureProfiles[state.temperature];
+      const needsJacket = Boolean(temp?.needsOuter || state.weather === "Rainy" || state.occasion === "Night Out");
+      const wantsShorts = Boolean(temp?.preferShorts);
+      const wantsLongBottom = Boolean(temp?.preferLongBottom || state.weather === "Rainy" || state.weather === "Windy");
+      const lightTop = (item) => item.category !== "Jackets" && (item.category === "T-shirts" || /shirt|tee|tank|linen|sleeve/i.test(item.name));
+      const structuredTop = (item) => item.category !== "Jackets" && /shirt|knit|hoodie|cardigan|blouse/i.test(item.name);
       return {
-        top: pick("TOP", (item) => needsJacket ? item.category === "Jackets" : item.category !== "Jackets"),
+        top: pick("TOP", (item) => {
+          if (item.category === "Jackets") return false;
+          if (state.temperature === "Warm" || state.temperature === "Hot") return lightTop(item);
+          if (state.temperature === "Cold" || state.temperature === "Cool") return structuredTop(item);
+          return item.category !== "Jackets";
+        }),
         outer: needsJacket ? pick("TOP", (item) => item.category === "Jackets") : null,
-        bottom: pick("BOTTOM", (item) => state.weather === "Sunny" ? item.category === "Shorts" : item.category === "Pants"),
+        bottom: pick("BOTTOM", (item) => {
+          if (wantsShorts) return item.category === "Shorts";
+          if (wantsLongBottom) return item.category === "Pants";
+          return item.category === "Pants";
+        }),
         shoes: pick("SHOES"),
         bag: pick("ACCESSORIES", (item) => item.category === "Bags"),
         accessory: pick("ACCESSORIES", (item) => item.category !== "Bags"),
-        accessories: pickMany("ACCESSORIES", 4, (item) => item.category !== "Bags")
+        accessories: pickMany("ACCESSORIES", 4, (item) => {
+          if (state.temperature === "Cold") return item.category !== "Bags";
+          if (state.temperature === "Hot") return item.category !== "Bags" && item.category !== "Belts";
+          return item.category !== "Bags";
+        })
       };
     }
 
@@ -2406,6 +2936,7 @@
         flatLay.innerHTML = `<div class="empty-lay">Upload wardrobe items, then generate or drag pieces here.</div>`;
         $("#outfitList").innerHTML = "";
         $("#accessoryList").innerHTML = "";
+        markEditableText();
         return;
       }
 
@@ -2420,6 +2951,7 @@
         </div>`).join("")}</div>`
       ].join("");
       renderOutfitList();
+      markEditableText();
     }
 
     function applyGarment(item) {
@@ -2437,10 +2969,18 @@
     }
 
     function generateLook(offset = 0) {
+      const missing = missingSelections();
+      if (missing.length) {
+        const label = missing.map((item) => item[0].toUpperCase() + item.slice(1)).join(", ");
+        showToast(`Please complete: ${label}`);
+        updateGenerateState();
+        return;
+      }
       const loading = $("#loading");
       loading.classList.add("active");
       $("#lookStatus").textContent = "Styling...";
-      const seed = state.mood.length + state.weather.length + state.occasion.length + state.currentLook + offset;
+      const temp = temperatureProfiles[state.temperature];
+      const seed = state.mood.length + state.weather.length + state.temperature.length + state.occasion.length + state.currentLook + offset;
       const look = styleDeck[seed % styleDeck.length];
       state.currentStyle = look;
       resetSaveButton();
@@ -2448,12 +2988,13 @@
         state.outfit = selectItems(seed % styleDeck.length);
         $("#styleName").textContent = look.name;
         $("#manifestoTitle").textContent = look.manifesto;
-        $("#descriptionText").textContent = look.desc;
-        $("#vibeSubtitle").textContent = look.subtitle;
-        $("#keywordTags").innerHTML = look.keywords.map((tag) => `<span class="tag">${tag}</span>`).join("");
+        $("#descriptionText").textContent = `${look.desc} ${temp.desc}`;
+        $("#vibeSubtitle").textContent = `${look.subtitle} · ${temp.subtitle}`;
+        $("#keywordTags").innerHTML = [...look.keywords, state.temperature, temp.range].map((tag) => `<span class="tag">${tag}</span>`).join("");
         $("#palette").innerHTML = look.colors.map(([color, label]) => `<div><span style="background:${color}"></span><small>${label}</small></div>`).join("");
         $("#suitableOccasion").textContent = state.occasion;
         renderFlatLay();
+        markEditableText();
         $("#lookStatus").textContent = "Look generated";
         loading.classList.remove("active");
         showToast(state.closet.length ? `${look.name} generated` : "Upload wardrobe items to generate a full look");
@@ -2473,10 +3014,12 @@
 
     function saveCurrentOutfit(button) {
       const outfitItems = getCurrentOutfitItems();
+      const temp = temperatureProfiles[state.temperature];
       const outfit = {
         styleName: $("#styleName").textContent,
         mood: state.mood,
         weather: state.weather,
+        temperature: temp ? `${state.temperature} ${temp.range}` : state.temperature,
         occasion: state.occasion,
         wardrobeItemIds: outfitItems.map((item) => item.id),
         palette: getCurrentPalette(),
@@ -2499,12 +3042,15 @@
 
     function buildOutfitSummary() {
       const outfitItems = getCurrentOutfitItems();
+      const temp = temperatureProfiles[state.temperature];
       const pieces = outfitItems.length ? outfitItems.map((item) => `- ${item.name} (${item.group} / ${item.category})`).join("\n") : "- No wardrobe items selected yet";
       return [
         `FASHION mood: ${$("#styleName").textContent}`,
         `Mood: ${state.mood}`,
         `Weather: ${state.weather}`,
+        `Temperature: ${temp ? `${state.temperature} ${temp.range}` : state.temperature}`,
         `Occasion: ${state.occasion}`,
+        `Temperature-based items: ${temp ? temp.items.join(", ") : "Not selected"}`,
         "Outfit:",
         pieces,
         `Palette: ${getCurrentPalette().map((item) => item.label).join(", ")}`
@@ -2631,6 +3177,45 @@
 
     $("#generateBtn").addEventListener("click", () => generateLook());
 
+    $("#editToggle").addEventListener("click", () => setEditMode(!editMode));
+    $("#saveTextEdits").addEventListener("click", () => saveTextEdits());
+    $("#exportHtml").addEventListener("click", exportEditedHtml);
+
+    document.addEventListener("click", (event) => {
+      if (!editMode) return;
+      if (event.target.closest("#editorPanel")) return;
+      const editable = event.target.closest("[data-editable-text]");
+      if (!editable || !isEditableTextElement(editable)) {
+        finishTextEditing();
+        return;
+      }
+      if (editable === activeTextEditor) {
+        event.stopPropagation();
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      startTextEditing(editable);
+    }, true);
+
+    document.addEventListener("keydown", (event) => {
+      if (!activeTextEditor) return;
+      if (event.key === "Enter") {
+        event.preventDefault();
+        finishTextEditing();
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishTextEditing();
+      }
+    });
+
+    document.addEventListener("focusout", (event) => {
+      if (activeTextEditor && event.target === activeTextEditor) {
+        saveTextEdits(false);
+      }
+    });
+
     $$(".studio-actions .ghost").forEach((button) => {
       button.addEventListener("click", () => {
         const action = button.dataset.action;
@@ -2662,8 +3247,10 @@
       styleCard.classList.toggle("flipped");
     });
 
+    markEditableText();
     renderCloset();
-    generateLook();
+    renderFlatLay();
+    updateGenerateState();
   </script>
 </body>
 </html>
