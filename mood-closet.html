@@ -795,6 +795,68 @@
       margin-bottom: 5px;
     }
 
+    .wardrobe-register {
+      margin: 0 0 14px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(20,20,20,0.1);
+      background: rgba(255,255,255,0.52);
+    }
+
+    .wardrobe-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .wardrobe-input,
+    .mini-upload,
+    .wardrobe-add {
+      width: 100%;
+      border-radius: 13px;
+      border: 1px solid rgba(20,20,20,0.08);
+      background: rgba(255,255,255,0.78);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .wardrobe-input {
+      padding: 10px 11px;
+      font-size: 12px;
+    }
+
+    .mini-upload {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 39px;
+      color: var(--muted);
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .mini-upload input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .wardrobe-add {
+      margin-top: 10px;
+      padding: 11px 12px;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg, #111, #215cff);
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .wardrobe-add:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--soft-shadow);
+    }
+
     .closet-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -938,6 +1000,13 @@
       color: #2f2a27;
       font-size: 11px;
       outline: none;
+    }
+
+    .closet-meta-editors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 7px;
     }
 
     .tags {
@@ -1109,140 +1178,6 @@
     .toast.show {
       opacity: 1;
       transform: translate(-50%, 0);
-    }
-
-    .editor-panel {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 80;
-      width: min(330px, calc(100vw - 28px));
-      padding: 12px;
-      border: 1px solid rgba(12,13,14,0.14);
-      border-radius: 22px;
-      background:
-        linear-gradient(145deg, rgba(250,248,242,0.94), rgba(224,229,231,0.88));
-      box-shadow: 0 22px 48px rgba(18,20,23,0.18);
-      backdrop-filter: blur(14px);
-    }
-
-    .editor-panel,
-    .editor-panel * {
-      user-select: none;
-    }
-
-    .editor-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .editor-title {
-      display: grid;
-      gap: 2px;
-    }
-
-    .editor-title strong {
-      color: #0c0d0e;
-      font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .editor-title span,
-    .editor-help {
-      color: #5e615e;
-      font-size: 11px;
-      line-height: 1.35;
-    }
-
-    .editor-switch {
-      position: relative;
-      width: 54px;
-      height: 30px;
-      flex: 0 0 auto;
-      border: 1px solid rgba(12,13,14,0.16);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.8);
-      transition: 220ms ease;
-    }
-
-    .editor-switch::after {
-      content: "";
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #111a2a;
-      box-shadow: 0 8px 16px rgba(18,20,23,0.18);
-      transition: 220ms ease;
-    }
-
-    .editor-switch.active {
-      background: linear-gradient(135deg, #111a2a, #781d2a);
-    }
-
-    .editor-switch.active::after {
-      left: 28px;
-      background: #f7f3ea;
-    }
-
-    .editor-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .editor-action {
-      padding: 9px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(12,13,14,0.12);
-      background: rgba(249,247,241,0.86);
-      color: #111;
-      font-family: "Courier New", monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: 180ms ease;
-    }
-
-    .editor-action:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(18,20,23,0.12);
-    }
-
-    .editor-help {
-      display: none;
-      margin: 10px 3px 0;
-    }
-
-    body.edit-mode .editor-help {
-      display: block;
-    }
-
-    body.edit-mode [data-editable-text] {
-      cursor: text;
-      outline: 1px dashed rgba(64,95,130,0.18);
-      outline-offset: 3px;
-      transition: outline-color 180ms ease, background 180ms ease;
-    }
-
-    body.edit-mode [data-editable-text]:hover,
-    [data-editable-text].editing {
-      border-radius: 8px;
-      outline-color: rgba(120,29,42,0.64);
-      background: rgba(255,255,255,0.56);
-    }
-
-    [data-editable-text][contenteditable="true"] {
-      user-select: text;
-      -webkit-user-select: text;
-      caret-color: #781d2a;
     }
 
     .generator-note {
@@ -1513,7 +1448,7 @@
 
     .inventory-summary {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
       gap: 8px;
       margin: 0 0 14px;
     }
@@ -1545,6 +1480,77 @@
       width: 82%;
       height: 86%;
       background-color: transparent;
+    }
+
+    .item-card.clean-asset .item-art,
+    .item-art.clean {
+      background:
+        radial-gradient(circle at 28% 14%, rgba(255,255,255,0.98), transparent 30%),
+        linear-gradient(145deg, #fff 0%, #f6f4ef 68%, #e7ebee 100%);
+    }
+
+    .item-card.clean-asset .garment-photo {
+      width: 86%;
+      height: 88%;
+      border-radius: 18px;
+      background-color: rgba(255,255,255,0.92);
+      background-size: contain;
+      mix-blend-mode: normal;
+      filter: saturate(0.96) contrast(1.04);
+      box-shadow: 0 18px 34px rgba(18,20,23,0.1);
+    }
+
+    .lay-piece.clean-asset .piece-image {
+      mix-blend-mode: normal;
+      filter: saturate(0.98) contrast(1.03);
+    }
+
+    .asset-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 8px 0 0;
+    }
+
+    .asset-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(12,13,14,0.06);
+      color: #62635f;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .asset-status.ready {
+      background: rgba(64,95,130,0.12);
+      color: #13223a;
+    }
+
+    .remove-bg {
+      min-height: 25px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(12,13,14,0.14);
+      background: #f7f3ea;
+      color: #111a2a;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .remove-bg:hover {
+      transform: translateY(-1px);
+      background: #111a2a;
+      color: #f7f3ea;
     }
 
     :root {
@@ -1751,7 +1757,7 @@
     }
 
     .outfit-stage {
-      min-height: 780px;
+      min-height: 920px;
       border: 1px solid rgba(12,13,14,0.08);
       background:
         radial-gradient(circle at 28% 16%, rgba(255,255,255,0.78), transparent 30%),
@@ -1775,15 +1781,15 @@
     }
 
     .outfit-stage .style-card-wrap {
-      width: min(610px, 92%);
+      width: min(780px, 96%);
     }
 
     .outfit-stage .style-card {
-      min-height: 760px;
+      min-height: 880px;
     }
 
     .outfit-stage .card-face {
-      padding: 34px 36px;
+      padding: 44px 48px;
       border-radius: 36px;
       border-color: rgba(255,255,255,0.72);
       background:
@@ -1820,25 +1826,26 @@
     }
 
     .style-name {
-      margin: 14px 0 10px;
+      margin: 18px 0 12px;
       color: #0b0c0d;
       font-family: Georgia, "Times New Roman", serif;
       font-style: italic;
-      font-size: clamp(40px, 5vw, 62px);
+      font-size: clamp(54px, 6vw, 86px);
       line-height: 1.04;
       letter-spacing: -0.065em;
     }
 
     .vibe-subtitle {
       color: rgba(12,13,14,0.56);
-      font-size: 13px;
-      letter-spacing: 0.28em;
+      font-size: 15px;
+      letter-spacing: 0.3em;
     }
 
     .flat-lay {
-      height: 410px;
-      margin-top: 20px;
-      border-radius: 24px;
+      height: 520px;
+      margin: 28px 0 22px;
+      border-radius: 30px;
+      padding: 42px 50px;
       background:
         linear-gradient(90deg, rgba(250,250,248,0.96), rgba(255,255,255,1) 34%, rgba(255,255,255,1) 68%, rgba(239,242,244,0.9));
       box-shadow:
@@ -1886,6 +1893,7 @@
       background: rgba(249,247,241,0.84);
       border-color: rgba(12,13,14,0.1);
       color: #151617;
+      font-size: 13px;
     }
 
     .back-quote {
@@ -1955,6 +1963,28 @@
       border-color: rgba(12,13,14,0.22);
       background:
         linear-gradient(135deg, rgba(250,248,242,0.76), rgba(226,228,228,0.72));
+    }
+
+    .wardrobe-register {
+      border-color: rgba(12,13,14,0.12);
+      background:
+        radial-gradient(circle at 94% 0%, rgba(120,29,42,0.1), transparent 34%),
+        linear-gradient(135deg, rgba(250,248,242,0.9), rgba(221,226,229,0.62));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.42);
+    }
+
+    .wardrobe-input,
+    .mini-upload {
+      border-color: rgba(12,13,14,0.12);
+      background: rgba(249,247,241,0.82);
+    }
+
+    .wardrobe-add {
+      color: #f7f3ea;
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #090a0c 0%, #13223a 62%, #781d2a 100%);
     }
 
     .inventory-pill,
@@ -2041,19 +2071,19 @@
       }
 
       .outfit-stage {
-        min-height: 650px;
+        min-height: 720px;
       }
 
       .outfit-stage .style-card {
-        min-height: 650px;
+        min-height: 720px;
       }
 
       .outfit-stage .card-face {
-        padding: 22px;
+        padding: 24px;
       }
 
       .flat-lay {
-        height: 340px;
+        height: 380px;
         grid-template-columns: 1.25fr 0.75fr;
         grid-template-rows: 0.88fr 1.2fr;
         grid-template-areas:
@@ -2062,6 +2092,15 @@
         column-gap: 16px;
         row-gap: 8px;
         padding: 20px;
+      }
+
+      .style-name {
+        font-size: clamp(40px, 13vw, 56px);
+      }
+
+      .wardrobe-form-grid,
+      .closet-meta-editors {
+        grid-template-columns: 1fr;
       }
 
       .flat-side {
@@ -2080,21 +2119,6 @@
 </head>
 <body>
   <main class="app">
-    <div class="editor-panel" id="editorPanel">
-      <div class="editor-row">
-        <div class="editor-title">
-          <strong>Text Edit</strong>
-          <span id="editorModeLabel">Edit mode off</span>
-        </div>
-        <button class="editor-switch" id="editToggle" type="button" aria-pressed="false" aria-label="Toggle text edit mode"></button>
-      </div>
-      <div class="editor-actions">
-        <button class="editor-action" id="saveTextEdits" type="button">Save</button>
-        <button class="editor-action" id="exportHtml" type="button">Export HTML</button>
-      </div>
-      <p class="editor-help">Click any highlighted text to rewrite it. Press Enter or click outside to finish.</p>
-    </div>
-
     <header class="topbar">
       <div class="brand">
         <div class="logo">FM</div>
@@ -2103,7 +2127,6 @@
           <p class="tagline">Downtown outfit notes for today's mood, weather, temperature, and scene.</p>
         </div>
       </div>
-      <div class="status-pill"><span class="dot"></span><span>Prototype mode · AI styling simulated</span></div>
     </header>
 
     <section class="layout">
@@ -2189,16 +2212,16 @@
             <h2>Outfit Generator</h2>
             <span class="micro">Flat lay mode</span>
           </div>
-          <p class="generator-note">Choose mood, weather, temperature, and occasion to generate a complete editorial outfit board from your wardrobe inventory.</p>
-          <button class="primary is-disabled" id="generateBtn" aria-disabled="true">Generate Outfit</button>
+          <p class="generator-note">Choose mood, weather, temperature, and occasion to generate a Today Vibe card using only clothes registered in your wardrobe.</p>
+          <button class="primary is-disabled" id="generateBtn" aria-disabled="true">Generate from My Wardrobe</button>
         </div>
       </aside>
 
       <section class="panel studio">
         <div class="studio-header">
           <div class="studio-title">
-            <h3>Style Notes Generator</h3>
-            <p>Build a clean flat lay look from mood, weather, temperature, and your closet. Drag wardrobe cards into the board or let FASHION mood style the full outfit.</p>
+            <h3>Today Vibe Card</h3>
+            <p>Build a larger shareable outfit card from your registered clothes, today's mood, weather, temperature, and occasion.</p>
           </div>
           <span class="status-pill"><span class="dot"></span><span id="lookStatus">Ready to style</span></span>
         </div>
@@ -2212,7 +2235,7 @@
               <div class="shimmer"></div>
             </div>
           </div>
-          <div class="drop-hint">Drag closet items into the board</div>
+          <div class="drop-hint">Drag your registered clothes into the board</div>
           <div class="style-card-wrap">
             <div class="style-card" id="styleCard">
               <div class="card-face card-front">
@@ -2220,7 +2243,7 @@
                 <div class="style-name" id="styleName">Modern Ivy</div>
                 <p class="vibe-subtitle" id="vibeSubtitle">Off-grid · Indigo wave</p>
                 <div class="flat-lay" id="flatLay">
-                  <div class="empty-lay">Generate an outfit or drag wardrobe items here.</div>
+                  <div class="empty-lay">Register your clothes, choose conditions, then generate today's outfit from your wardrobe.</div>
                 </div>
                 <div class="tags" id="keywordTags">
                   <span class="tag">Denim</span><span class="tag">Utility</span><span class="tag">Calm</span>
@@ -2238,7 +2261,7 @@
                 <p class="back-quote" id="manifestoTitle">Quiet pieces, sharp rhythm, and a bag that makes the day feel planned.</p>
                 <h2>Palette</h2>
                 <div class="palette-labeled" id="palette"></div>
-                <h2>Recommended Outfit Items</h2>
+                <h2>Outfit Items from My Wardrobe</h2>
                 <ul class="note-list" id="outfitList"></ul>
                 <h2>Accessories</h2>
                 <ul class="note-list" id="accessoryList"></ul>
@@ -2260,15 +2283,58 @@
       <aside class="panel right-panel">
         <div class="closet-head">
           <div>
-            <h3>My Closet</h3>
-            <p class="tagline">Upload pieces or drag cards into the outfit board.</p>
+            <h3>My Wardrobe</h3>
+            <p class="tagline">Register clothes you already own. Today Vibe only uses this wardrobe.</p>
           </div>
           <span class="status-pill"><span id="closetCount">0</span> items</span>
         </div>
 
+        <!-- My Wardrobe section: register owned clothes with metadata used by the generator. -->
+        <div class="wardrobe-register">
+          <div class="section-head">
+            <h2>Register My Clothes</h2>
+            <span class="micro">Owned items only</span>
+          </div>
+          <input class="wardrobe-input" id="wardrobeName" type="text" placeholder="Item name, e.g. Navy bomber" />
+          <div class="wardrobe-form-grid">
+            <select class="wardrobe-input" id="wardrobeGroup" aria-label="Clothing category">
+              <option value="TOP">Top</option>
+              <option value="BOTTOM">Bottom</option>
+              <option value="OUTERWEAR">Outerwear</option>
+              <option value="SHOES">Shoes</option>
+              <option value="ACCESSORIES">Accessory</option>
+            </select>
+            <input class="wardrobe-input" id="wardrobeColor" type="text" placeholder="Color" />
+            <input class="wardrobe-input" id="wardrobeStyle" type="text" placeholder="Style tag, e.g. Minimal" />
+            <select class="wardrobe-input" id="wardrobeTemp" aria-label="Suitable temperature">
+              <option value="All">All temperatures</option>
+              <option value="Cold">Cold 0-9°C</option>
+              <option value="Cool">Cool 10-16°C</option>
+              <option value="Mild">Mild 17-22°C</option>
+              <option value="Warm">Warm 23-27°C</option>
+              <option value="Hot">Hot 28°C+</option>
+            </select>
+            <select class="wardrobe-input" id="wardrobeOccasion" aria-label="Suitable occasion">
+              <option value="All">All occasions</option>
+              <option value="Campus">Campus</option>
+              <option value="Cafe">Cafe</option>
+              <option value="Work">Work</option>
+              <option value="Date">Date</option>
+              <option value="Concert">Concert</option>
+              <option value="Night Out">Night Out</option>
+              <option value="Travel">Travel</option>
+            </select>
+            <label class="mini-upload">
+              <input type="file" id="wardrobeImage" accept="image/*" />
+              <span>Image optional</span>
+            </label>
+          </div>
+          <button class="wardrobe-add" id="addWardrobeItem" type="button">Add to My Wardrobe</button>
+        </div>
+
         <label class="upload">
           <input type="file" id="uploadInput" multiple accept="image/*" />
-          <span><strong>Upload closet photos</strong>Images become wardrobe garment cards</span>
+          <span><strong>Bulk upload owned clothes</strong>Images become registered wardrobe cards</span>
         </label>
 
         <div class="inventory-summary" id="inventorySummary"></div>
@@ -2282,8 +2348,6 @@
 
   <script>
     const SAVED_OUTFITS_KEY = "fashionMoodSavedOutfits";
-    const TEXT_EDITS_KEY = "fashionMoodTextEdits";
-    const EDITABLE_TEXT_SELECTOR = "h1, h2, h3, p, span, strong, small, li, button:not(.editor-switch):not(.editor-action)";
     ["moodClosetWardrobe", "mood-closet-wardrobe", "fashionMoodWardrobe"].forEach((key) => {
       localStorage.removeItem(key);
     });
@@ -2295,7 +2359,10 @@
         group: "TOP",
         category: "Shirts",
         color: "Washed blue",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Clean",
+        temperatures: ["Cold", "Cool", "Mild", "Warm"],
+        occasions: ["Campus", "Cafe", "Work", "Date"],
+        tags: ["Registered", "Clean"],
         hex: "#8fb0d8",
         src: "assets/initial-blue-stripe-shirt.png",
         bgSize: "contain",
@@ -2307,7 +2374,10 @@
         group: "TOP",
         category: "Shirts",
         color: "Ivory",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Minimal",
+        temperatures: ["Cold", "Cool", "Mild", "Warm"],
+        occasions: ["Campus", "Cafe", "Work", "Date"],
+        tags: ["Registered", "Minimal"],
         hex: "#f4f0e8",
         src: "assets/initial-white-pinstripe-shirt.png",
         bgSize: "contain",
@@ -2316,10 +2386,14 @@
       {
         id: "initial-navy-leather-jacket",
         name: "Navy Leather Jacket",
-        group: "TOP",
+        group: "OUTERWEAR",
         category: "Jackets",
         color: "Deep navy",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Street",
+        temperatures: ["Cold", "Cool", "Mild"],
+        occasions: ["Cafe", "Work", "Concert", "Night Out", "Travel"],
+        weatherAvoid: ["Rainy"],
+        tags: ["Registered", "Street"],
         hex: "#111a2a",
         src: "assets/initial-navy-leather-jacket.png",
         bgSize: "contain",
@@ -2328,10 +2402,13 @@
       {
         id: "initial-burgundy-zip-jacket",
         name: "Burgundy Zip Jacket",
-        group: "TOP",
+        group: "OUTERWEAR",
         category: "Jackets",
         color: "Burgundy",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Bold",
+        temperatures: ["Cold", "Cool", "Mild"],
+        occasions: ["Cafe", "Concert", "Night Out", "Travel"],
+        tags: ["Registered", "Bold"],
         hex: "#781d2a",
         src: "assets/initial-burgundy-zip-jacket.png",
         bgSize: "contain",
@@ -2343,7 +2420,10 @@
         group: "BOTTOM",
         category: "Pants",
         color: "Navy",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Minimal",
+        temperatures: ["Cold", "Cool", "Mild", "Warm"],
+        occasions: ["Campus", "Cafe", "Work", "Date", "Travel"],
+        tags: ["Registered", "Minimal"],
         hex: "#17233a",
         src: "assets/initial-navy-wide-pants.png",
         bgSize: "contain",
@@ -2355,7 +2435,10 @@
         group: "BOTTOM",
         category: "Shorts",
         color: "Concrete gray",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Utility",
+        temperatures: ["Warm", "Hot"],
+        occasions: ["Campus", "Cafe", "Travel"],
+        tags: ["Registered", "Utility"],
         hex: "#aeb4b8",
         src: "assets/initial-gray-cargo-shorts.png",
         bgSize: "contain",
@@ -2367,7 +2450,10 @@
         group: "BOTTOM",
         category: "Shorts",
         color: "Olive camo",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Street",
+        temperatures: ["Warm", "Hot"],
+        occasions: ["Campus", "Concert", "Travel"],
+        tags: ["Registered", "Street"],
         hex: "#667052",
         src: "assets/initial-camo-cargo-shorts.png",
         bgSize: "contain",
@@ -2379,7 +2465,11 @@
         group: "SHOES",
         category: "Loafers",
         color: "Brown leather",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Classic",
+        temperatures: ["Cool", "Mild", "Warm"],
+        occasions: ["Campus", "Cafe", "Work", "Date", "Travel"],
+        weatherAvoid: ["Rainy"],
+        tags: ["Registered", "Classic"],
         hex: "#5c3928",
         src: "assets/initial-brown-boat-loafer.png",
         bgSize: "contain",
@@ -2391,7 +2481,10 @@
         group: "ACCESSORIES",
         category: "Bags",
         color: "Brown multi",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Travel",
+        temperatures: ["Cold", "Cool", "Mild", "Warm", "Hot"],
+        occasions: ["Campus", "Cafe", "Concert", "Night Out", "Travel"],
+        tags: ["Registered", "Travel"],
         hex: "#6b422f",
         src: "assets/initial-painted-duffle-bag.png",
         bgSize: "contain",
@@ -2403,7 +2496,10 @@
         group: "ACCESSORIES",
         category: "Bags",
         color: "Tan",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Soft",
+        temperatures: ["Cold", "Cool", "Mild", "Warm", "Hot"],
+        occasions: ["Campus", "Cafe", "Work", "Date", "Travel"],
+        tags: ["Registered", "Soft"],
         hex: "#a36b3d",
         src: "assets/initial-tan-tote-bag.png",
         bgSize: "contain",
@@ -2415,7 +2511,10 @@
         group: "ACCESSORIES",
         category: "Belts",
         color: "Black",
-        tags: ["Initial", "Auto sorted"],
+        styleTag: "Minimal",
+        temperatures: ["Cold", "Cool", "Mild", "Warm"],
+        occasions: ["Campus", "Cafe", "Work", "Date", "Night Out", "Travel"],
+        tags: ["Registered", "Minimal"],
         hex: "#0c0d0e",
         src: "assets/initial-black-belt.png",
         bgSize: "contain",
@@ -2471,7 +2570,7 @@
 
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
-    const groupOrder = ["TOP", "BOTTOM", "SHOES", "ACCESSORIES"];
+    const groupOrder = ["TOP", "BOTTOM", "OUTERWEAR", "SHOES", "ACCESSORIES"];
     // Temperature strongly affects garment weight, coverage, and layering.
     const temperatureProfiles = {
       Cold: {
@@ -2531,150 +2630,12 @@
       }
     };
     const categoryMap = {
-      TOP: ["Shirts", "T-shirts", "Jackets"],
+      TOP: ["Shirts", "T-shirts"],
       BOTTOM: ["Pants", "Shorts"],
+      OUTERWEAR: ["Jackets", "Coats", "Cardigans", "Hoodies"],
       SHOES: ["Loafers", "Sneakers"],
       ACCESSORIES: ["Bags", "Glasses", "Caps", "Necklaces", "Watches", "Belts", "Wallets"]
     };
-    let editMode = false;
-    let activeTextEditor = null;
-
-    function elementPath(element) {
-      const parts = [];
-      let node = element;
-      while (node && node.nodeType === 1 && node !== document.body) {
-        const parent = node.parentElement;
-        if (!parent) break;
-        const siblings = [...parent.children].filter((child) => child.tagName === node.tagName);
-        const index = siblings.indexOf(node) + 1;
-        parts.unshift(`${node.tagName.toLowerCase()}:nth-of-type(${index})`);
-        node = parent;
-      }
-      return parts.join(">");
-    }
-
-    function editKeySelector(key) {
-      const escaped = window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-      return `[data-edit-key="${escaped}"]`;
-    }
-
-    function isEditableTextElement(element) {
-      if (!element || element.closest("#editorPanel")) return false;
-      if (element.closest("input, select, textarea, .closet-editors, .delete-item")) return false;
-      if (!element.matches(EDITABLE_TEXT_SELECTOR)) return false;
-      const hasEditableChild = [...element.children].some((child) => child.matches?.(EDITABLE_TEXT_SELECTOR));
-      if (hasEditableChild) return false;
-      return Boolean(element.textContent.trim());
-    }
-
-    function markEditableText() {
-      document.querySelectorAll(EDITABLE_TEXT_SELECTOR).forEach((element) => {
-        if (!isEditableTextElement(element)) return;
-        if (!element.dataset.editKey) element.dataset.editKey = elementPath(element);
-        element.dataset.editableText = "true";
-      });
-      applySavedTextEdits();
-    }
-
-    function readTextEdits() {
-      try {
-        return JSON.parse(localStorage.getItem(TEXT_EDITS_KEY) || "{}");
-      } catch (error) {
-        return {};
-      }
-    }
-
-    function writeTextEdits(edits) {
-      localStorage.setItem(TEXT_EDITS_KEY, JSON.stringify(edits));
-    }
-
-    function applySavedTextEdits(edits = readTextEdits()) {
-      Object.entries(edits).forEach(([key, value]) => {
-        const element = document.querySelector(editKeySelector(key));
-        if (element && element.textContent !== value) element.textContent = value;
-      });
-    }
-
-    function finishTextEditing() {
-      if (!activeTextEditor) return;
-      activeTextEditor.classList.remove("editing");
-      activeTextEditor.removeAttribute("contenteditable");
-      activeTextEditor = null;
-    }
-
-    function startTextEditing(element) {
-      if (!element || element === activeTextEditor) return;
-      finishTextEditing();
-      element.setAttribute("contenteditable", "true");
-      element.classList.add("editing");
-      activeTextEditor = element;
-      element.focus();
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(element);
-      range.collapse(false);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-
-    function setEditMode(enabled) {
-      editMode = enabled;
-      finishTextEditing();
-      document.body.classList.toggle("edit-mode", editMode);
-      $("#editToggle").classList.toggle("active", editMode);
-      $("#editToggle").setAttribute("aria-pressed", String(editMode));
-      $("#editorModeLabel").textContent = editMode ? "Edit mode on" : "Edit mode off";
-      markEditableText();
-      showToast(editMode ? "Text edit mode on" : "Text edit mode off");
-    }
-
-    function saveTextEdits(showMessage = true) {
-      finishTextEditing();
-      markEditableText();
-      const edits = {};
-      document.querySelectorAll("[data-editable-text][data-edit-key]").forEach((element) => {
-        edits[element.dataset.editKey] = element.textContent;
-      });
-      writeTextEdits(edits);
-      if (showMessage) showToast("Text edits saved");
-      return edits;
-    }
-
-    function exportEditedHtml() {
-      const edits = saveTextEdits(false);
-      const clone = document.documentElement.cloneNode(true);
-      clone.querySelectorAll("[contenteditable]").forEach((element) => element.removeAttribute("contenteditable"));
-      clone.querySelectorAll(".editing").forEach((element) => element.classList.remove("editing"));
-      clone.querySelector("body")?.classList.remove("edit-mode");
-      clone.querySelector("#editToggle")?.classList.remove("active");
-      const exportScript = clone.ownerDocument.createElement("script");
-      exportScript.textContent = `
-        window.FASHION_MOOD_EXPORTED_TEXT_EDITS = ${JSON.stringify(edits)};
-        window.addEventListener("load", () => {
-          const edits = window.FASHION_MOOD_EXPORTED_TEXT_EDITS || {};
-          const apply = () => Object.entries(edits).forEach(([key, value]) => {
-            const selector = "[data-edit-key=\\\"" + (window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/"/g, "\\\\\\\"")) + "\\\"]";
-            const element = document.querySelector(selector);
-            if (element) element.textContent = value;
-          });
-          apply();
-          setTimeout(apply, 950);
-        });
-      `;
-      clone.querySelector("body").appendChild(exportScript);
-      const html = `<!DOCTYPE html>\n${clone.outerHTML}`;
-      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = `fashion-mood-edited-${new Date().toISOString().slice(0, 10)}.html`;
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      URL.revokeObjectURL(url);
-      showToast("Edited HTML exported");
-    }
-
     function setGroup(group, value) {
       state[group] = value;
       const profile = group === "temperature" ? temperatureProfiles[value] : null;
@@ -2686,7 +2647,6 @@
         button.classList.toggle("active", button.dataset.value === value);
       });
       updateGenerateState();
-      markEditableText();
     }
 
     function missingSelections() {
@@ -2707,6 +2667,26 @@
       return `--image:url('${item.src}');--bgSize:${item.bgSize || "cover"};--bgPos:${item.bgPos || "center"};`;
     }
 
+    function isCleanAsset(item) {
+      return Boolean(item.bgRemoved || item.id?.startsWith("initial-") || item.src?.startsWith("data:image/svg"));
+    }
+
+    function assetStatusLabel(item) {
+      if (item.bgRemoved) return "Background removed";
+      if (isCleanAsset(item)) return "Clean asset ready";
+      return "Casual photo";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
     function categoryOptions(group, selected) {
       return (categoryMap[group] || categoryMap.ACCESSORIES).map((category) => {
         return `<option value="${category}" ${category === selected ? "selected" : ""}>${category}</option>`;
@@ -2719,6 +2699,23 @@
       }).join("");
     }
 
+    function temperatureOptions(selected = []) {
+      const values = Array.isArray(selected) ? selected : [selected];
+      return ["All", ...Object.keys(temperatureProfiles)].map((temperature) => {
+        const active = temperature === "All" ? values.length === Object.keys(temperatureProfiles).length : values.includes(temperature);
+        return `<option value="${temperature}" ${active ? "selected" : ""}>${temperature === "All" ? "All temperatures" : `${temperature} ${temperatureProfiles[temperature].range}`}</option>`;
+      }).join("");
+    }
+
+    function occasionOptions(selected = []) {
+      const occasions = ["Campus", "Cafe", "Work", "Date", "Concert", "Night Out", "Travel"];
+      const values = Array.isArray(selected) ? selected : [selected];
+      return ["All", ...occasions].map((occasion) => {
+        const active = occasion === "All" ? values.length === occasions.length : values.includes(occasion);
+        return `<option value="${occasion}" ${active ? "selected" : ""}>${occasion === "All" ? "All occasions" : occasion}</option>`;
+      }).join("");
+    }
+
     function renderCloset() {
       const grid = $("#closetGrid");
       grid.innerHTML = "";
@@ -2726,7 +2723,7 @@
         grid.innerHTML = `
           <div class="empty-closet">
             <strong>No wardrobe items yet.</strong>
-            <span>Upload your clothes to build today's look.</span>
+            <span>Register clothes you already own to build today's look.</span>
           </div>
         `;
         $("#closetCount").textContent = "0";
@@ -2734,35 +2731,58 @@
         return;
       }
       state.closet.forEach((item, index) => {
+        const cleanAsset = isCleanAsset(item);
+        const assetStatus = assetStatusLabel(item);
+        const safeName = escapeHtml(item.name);
+        const tagValues = [
+          item.group,
+          item.category,
+          item.color,
+          item.styleTag || "Owned",
+          (item.temperatures || []).join("/") || "All temp",
+          (item.occasions || []).join("/") || "All scenes",
+          ...(item.tags || [])
+        ].map(escapeHtml);
         const card = document.createElement("div");
-        card.className = "item-card";
+        card.className = `item-card ${cleanAsset ? "clean-asset" : "needs-cleanup"}`;
         card.draggable = true;
         card.dataset.index = index;
         card.innerHTML = `
-          <button class="delete-item" type="button" aria-label="Delete ${item.name}" data-delete-index="${index}">×</button>
-          <div class="item-art">
+          <button class="delete-item" type="button" aria-label="Delete ${safeName}" data-delete-index="${index}">×</button>
+          <div class="item-art ${cleanAsset ? "clean" : ""}">
             <div class="garment-photo" style="${imageStyle(item)}"></div>
           </div>
           <div class="item-info">
-            <input class="name-input" aria-label="Edit name for ${item.name}" value="${item.name}" />
+            <input class="name-input" aria-label="Edit name for ${safeName}" value="${safeName}" />
             <div class="tags">
-              <span class="tag">${item.group}</span>
-              <span class="tag">${item.category}</span>
-              <span class="tag">${item.color}</span>
-              ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+              ${tagValues.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+            </div>
+            <div class="asset-actions">
+              <span class="asset-status ${cleanAsset ? "ready" : ""}">${escapeHtml(assetStatus)}</span>
+              ${cleanAsset ? "" : `<button class="remove-bg" type="button" data-clean-index="${index}">Remove Background</button>`}
             </div>
             <div class="closet-editors">
-              <select class="closet-select group-select" aria-label="Edit group for ${item.name}">
+              <select class="closet-select group-select" aria-label="Edit group for ${safeName}">
                 ${groupOptions(item.group)}
               </select>
-              <select class="closet-select category-select" aria-label="Edit category for ${item.name}">
+              <select class="closet-select category-select" aria-label="Edit category for ${safeName}">
                 ${categoryOptions(item.group, item.category)}
+              </select>
+            </div>
+            <div class="closet-meta-editors">
+              <input class="closet-select color-input" aria-label="Edit color for ${safeName}" value="${escapeHtml(item.color)}" />
+              <input class="closet-select style-input" aria-label="Edit style tag for ${safeName}" value="${escapeHtml(item.styleTag || "")}" />
+              <select class="closet-select temp-select" aria-label="Edit temperature for ${safeName}">
+                ${temperatureOptions(item.temperatures)}
+              </select>
+              <select class="closet-select occasion-select" aria-label="Edit occasion for ${safeName}">
+                ${occasionOptions(item.occasions)}
               </select>
             </div>
           </div>
         `;
         card.addEventListener("dragstart", (event) => {
-          if (event.target.closest(".delete-item") || event.target.closest(".closet-editors") || event.target.closest(".name-input")) {
+          if (event.target.closest("button") || event.target.closest(".closet-editors") || event.target.closest(".closet-meta-editors") || event.target.closest(".name-input")) {
             event.preventDefault();
             return;
           }
@@ -2772,6 +2792,13 @@
           event.stopPropagation();
           deleteClosetItem(index);
         });
+        const removeBgButton = card.querySelector(".remove-bg");
+        if (removeBgButton) {
+          removeBgButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            removeBackground(index);
+          });
+        }
         card.querySelector(".name-input").addEventListener("change", (event) => {
           event.stopPropagation();
           updateClosetItemName(index, event.target.value);
@@ -2792,11 +2819,40 @@
           event.stopPropagation();
           updateClosetItemCategory(index, event.target.value);
         });
+        card.querySelector(".color-input").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemMeta(index, "color", event.target.value);
+        });
+        card.querySelector(".style-input").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemMeta(index, "styleTag", event.target.value);
+        });
+        card.querySelector(".temp-select").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemMeta(index, "temperatures", expandTemperatureValue(event.target.value));
+        });
+        card.querySelector(".occasion-select").addEventListener("change", (event) => {
+          event.stopPropagation();
+          updateClosetItemMeta(index, "occasions", expandOccasionValue(event.target.value));
+        });
         grid.appendChild(card);
       });
       $("#closetCount").textContent = state.closet.length;
       renderInventory();
-      markEditableText();
+    }
+
+    // Simulated background removal: present casual uploads as clean fashion assets for the final demo.
+    function removeBackground(index) {
+      const item = state.closet[index];
+      if (!item) return;
+      item.bgRemoved = true;
+      item.assetStatus = "Background removed";
+      item.bgSize = "contain";
+      item.bgPos = "center";
+      item.tags = [...new Set([...(item.tags || []), "Clean asset"])];
+      renderCloset();
+      renderFlatLay();
+      showToast(`${item.name} clean asset ready`);
     }
 
     function deleteClosetItem(index) {
@@ -2838,6 +2894,24 @@
       showToast(`${item.name} set as ${category}`);
     }
 
+    function expandTemperatureValue(value) {
+      return value === "All" ? Object.keys(temperatureProfiles) : [value];
+    }
+
+    function expandOccasionValue(value) {
+      const occasions = ["Campus", "Cafe", "Work", "Date", "Concert", "Night Out", "Travel"];
+      return value === "All" ? occasions : [value];
+    }
+
+    function updateClosetItemMeta(index, key, value) {
+      const item = state.closet[index];
+      if (!item) return;
+      item[key] = Array.isArray(value) ? value : String(value || "").trim();
+      renderCloset();
+      renderFlatLay();
+      showToast(`${item.name} wardrobe details updated`);
+    }
+
     function updateClosetItemName(index, name) {
       const item = state.closet[index];
       if (!item) return;
@@ -2862,36 +2936,65 @@
       }).join("");
     }
 
-    function selectItems(seed) {
-      const byGroup = (group) => state.closet.filter((item) => item.group === group);
-      const pick = (group, preference = () => true) => {
-        const items = byGroup(group);
-        const preferred = items.filter(preference);
-        const pool = preferred.length ? preferred : items;
-        if (!pool.length) return null;
-        return pool[(seed + state.currentLook + pool.length) % pool.length];
+    function textPool(item) {
+      return [item.name, item.group, item.category, item.color, item.styleTag, ...(item.tags || [])].join(" ").toLowerCase();
+    }
+
+    function itemMatchesMood(item) {
+      const moodTerms = {
+        Relaxed: ["relaxed", "soft", "casual", "easy", "owned"],
+        Confident: ["bold", "classic", "sharp", "clean"],
+        Romantic: ["romantic", "soft", "date", "ivory"],
+        Dreamy: ["dreamy", "soft", "clean", "washed"],
+        Bold: ["bold", "burgundy", "street"],
+        Street: ["street", "utility", "camo", "travel"],
+        Minimal: ["minimal", "clean", "ivory", "navy"]
       };
+      const text = textPool(item);
+      return (moodTerms[state.mood] || []).some((term) => text.includes(term));
+    }
+
+    function itemMatchesToday(item) {
+      const temperatures = item.temperatures || Object.keys(temperatureProfiles);
+      const occasions = item.occasions || expandOccasionValue("All");
+      const avoids = item.weatherAvoid || [];
+      return temperatures.includes(state.temperature) && occasions.includes(state.occasion) && !avoids.includes(state.weather);
+    }
+
+    function pickFromPool(items, seed, preference = () => true) {
+      const preferred = items.filter(preference);
+      const moodPreferred = preferred.filter(itemMatchesMood);
+      const pool = moodPreferred.length ? moodPreferred : preferred.length ? preferred : items;
+      if (!pool.length) return null;
+      return pool[(seed + state.currentLook + pool.length) % pool.length];
+    }
+
+    // Wardrobe-based outfit generation: only registered clothes matching today's conditions are eligible.
+    function selectItems(seed) {
+      const temp = temperatureProfiles[state.temperature];
+      const eligible = state.closet.filter(itemMatchesToday);
+      const byGroup = (group) => eligible.filter((item) => item.group === group);
+      const pick = (group, preference = () => true) => pickFromPool(byGroup(group), seed, preference);
       const pickMany = (group, limit, preference = () => true) => {
         const items = byGroup(group);
         const preferred = items.filter(preference);
-        const pool = preferred.length ? preferred : items;
+        const moodPreferred = preferred.filter(itemMatchesMood);
+        const pool = moodPreferred.length ? moodPreferred : preferred.length ? preferred : items;
         const start = pool.length ? seed % pool.length : 0;
         return pool.slice(start).concat(pool.slice(0, start)).slice(0, limit);
       };
-      const temp = temperatureProfiles[state.temperature];
       const needsJacket = Boolean(temp?.needsOuter || state.weather === "Rainy" || state.occasion === "Night Out");
       const wantsShorts = Boolean(temp?.preferShorts);
       const wantsLongBottom = Boolean(temp?.preferLongBottom || state.weather === "Rainy" || state.weather === "Windy");
       const lightTop = (item) => item.category !== "Jackets" && (item.category === "T-shirts" || /shirt|tee|tank|linen|sleeve/i.test(item.name));
       const structuredTop = (item) => item.category !== "Jackets" && /shirt|knit|hoodie|cardigan|blouse/i.test(item.name);
-      return {
+      const outfit = {
         top: pick("TOP", (item) => {
-          if (item.category === "Jackets") return false;
           if (state.temperature === "Warm" || state.temperature === "Hot") return lightTop(item);
           if (state.temperature === "Cold" || state.temperature === "Cool") return structuredTop(item);
           return item.category !== "Jackets";
         }),
-        outer: needsJacket ? pick("TOP", (item) => item.category === "Jackets") : null,
+        outer: needsJacket ? pick("OUTERWEAR") : pick("OUTERWEAR", () => state.temperature === "Mild"),
         bottom: pick("BOTTOM", (item) => {
           if (wantsShorts) return item.category === "Shorts";
           if (wantsLongBottom) return item.category === "Pants";
@@ -2900,12 +3003,21 @@
         shoes: pick("SHOES"),
         bag: pick("ACCESSORIES", (item) => item.category === "Bags"),
         accessory: pick("ACCESSORIES", (item) => item.category !== "Bags"),
-        accessories: pickMany("ACCESSORIES", 4, (item) => {
-          if (state.temperature === "Cold") return item.category !== "Bags";
-          if (state.temperature === "Hot") return item.category !== "Bags" && item.category !== "Belts";
-          return item.category !== "Bags";
-        })
+        accessories: pickMany("ACCESSORIES", 4, (item) => item.category !== "Bags")
       };
+      const missing = [];
+      if (!outfit.top) missing.push("top");
+      if (!outfit.bottom) missing.push("bottom");
+      if (!outfit.shoes) missing.push("shoes");
+      if (needsJacket && !outfit.outer) missing.push("outerwear");
+      if (missing.length) {
+        return {
+          error: true,
+          missing,
+          message: "Not enough matching items in your wardrobe. Try adding more clothes or changing today’s conditions."
+        };
+      }
+      return outfit;
     }
 
     function renderOutfitList() {
@@ -2933,29 +3045,28 @@
       ].filter(([, item]) => item);
 
       if (!pieces.length) {
-        flatLay.innerHTML = `<div class="empty-lay">Upload wardrobe items, then generate or drag pieces here.</div>`;
+        flatLay.innerHTML = `<div class="empty-lay">Register your clothes, then generate or drag owned items here.</div>`;
         $("#outfitList").innerHTML = "";
         $("#accessoryList").innerHTML = "";
-        markEditableText();
         return;
       }
 
       const mainPieces = pieces.filter(([slot]) => slot === "top" || slot === "outer" || slot === "bottom");
       const sidePieces = pieces.filter(([slot]) => slot !== "top" && slot !== "outer" && slot !== "bottom");
       flatLay.innerHTML = [
-        ...mainPieces.map(([slot, item]) => `<div class="lay-piece ${slot}" title="${item.name}">
+        ...mainPieces.map(([slot, item]) => `<div class="lay-piece ${slot} ${isCleanAsset(item) ? "clean-asset" : ""}" title="${item.name}">
           <div class="piece-image" style="${imageStyle(item)}"></div>
         </div>`),
-        `<div class="flat-side">${sidePieces.map(([slot, item]) => `<div class="lay-piece ${slot}" title="${item.name}">
+        `<div class="flat-side">${sidePieces.map(([slot, item]) => `<div class="lay-piece ${slot} ${isCleanAsset(item) ? "clean-asset" : ""}" title="${item.name}">
           <div class="piece-image" style="${imageStyle(item)}"></div>
         </div>`).join("")}</div>`
       ].join("");
       renderOutfitList();
-      markEditableText();
     }
 
     function applyGarment(item) {
-      if (item.group === "TOP" && item.category === "Jackets") state.outfit.outer = item;
+      if (item.group === "OUTERWEAR") state.outfit.outer = item;
+      else if (item.group === "TOP" && item.category === "Jackets") state.outfit.outer = item;
       else if (item.group === "TOP") state.outfit.top = item;
       else if (item.group === "BOTTOM") state.outfit.bottom = item;
       else if (item.group === "SHOES") state.outfit.shoes = item;
@@ -2985,7 +3096,17 @@
       state.currentStyle = look;
       resetSaveButton();
       setTimeout(() => {
-        state.outfit = selectItems(seed % styleDeck.length);
+        const selectedOutfit = selectItems(seed % styleDeck.length);
+        if (selectedOutfit.error) {
+          state.outfit = {};
+          renderFlatLay();
+          $("#lookStatus").textContent = "Wardrobe needs more items";
+          $("#descriptionText").textContent = selectedOutfit.message;
+          loading.classList.remove("active");
+          showToast(selectedOutfit.message);
+          return;
+        }
+        state.outfit = selectedOutfit;
         $("#styleName").textContent = look.name;
         $("#manifestoTitle").textContent = look.manifesto;
         $("#descriptionText").textContent = `${look.desc} ${temp.desc}`;
@@ -2994,7 +3115,6 @@
         $("#palette").innerHTML = look.colors.map(([color, label]) => `<div><span style="background:${color}"></span><small>${label}</small></div>`).join("");
         $("#suitableOccasion").textContent = state.occasion;
         renderFlatLay();
-        markEditableText();
         $("#lookStatus").textContent = "Look generated";
         loading.classList.remove("active");
         showToast(state.closet.length ? `${look.name} generated` : "Upload wardrobe items to generate a full look");
@@ -3087,9 +3207,22 @@
       showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
     }
 
+    function placeholderForGroup(group, color = "Registered") {
+      const label = group === "OUTERWEAR" ? "OUTER" : group;
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="480" height="520" viewBox="0 0 480 520">
+          <rect width="480" height="520" rx="36" fill="#f7f3ea"/>
+          <rect x="54" y="54" width="372" height="412" rx="30" fill="#dfe4e7"/>
+          <text x="240" y="238" font-family="Arial, sans-serif" font-size="42" font-weight="800" text-anchor="middle" fill="#111a2a">${label}</text>
+          <text x="240" y="290" font-family="Courier New, monospace" font-size="22" text-anchor="middle" fill="#781d2a">${color}</text>
+        </svg>
+      `;
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    }
+
     function categorizeUpload(file, index) {
       const name = file.name.toLowerCase();
-      if (/jacket|coat|outer|zip|blouson|bomber/.test(name)) return ["TOP", "Jackets"];
+      if (/jacket|coat|outer|zip|blouson|bomber/.test(name)) return ["OUTERWEAR", "Jackets"];
       if (/shirt|tee|t-shirt|top|tank|knit/.test(name)) return ["TOP", name.includes("tee") || name.includes("t-shirt") ? "T-shirts" : "Shirts"];
       if (/short/.test(name)) return ["BOTTOM", "Shorts"];
       if (/pant|trouser|denim|jean/.test(name)) return ["BOTTOM", "Pants"];
@@ -3101,7 +3234,7 @@
       if (/belt/.test(name)) return ["ACCESSORIES", "Belts"];
       if (/watch/.test(name)) return ["ACCESSORIES", "Watches"];
       if (/wallet|card/.test(name)) return ["ACCESSORIES", "Wallets"];
-      return [["TOP", "Shirts"], ["BOTTOM", "Pants"], ["SHOES", "Sneakers"], ["ACCESSORIES", "Bags"]][index % 4];
+      return [["TOP", "Shirts"], ["BOTTOM", "Pants"], ["OUTERWEAR", "Jackets"], ["SHOES", "Sneakers"], ["ACCESSORIES", "Bags"]][index % 5];
     }
 
     function uploadDisplayName(file, group, category, index) {
@@ -3127,12 +3260,64 @@
       return fallback[category] || `Uploaded ${group.toLowerCase()} ${index + 1}`;
     }
 
+    function firstCategoryForGroup(group) {
+      return (categoryMap[group] || categoryMap.ACCESSORIES)[0];
+    }
+
+    function registerWardrobeItem({ name, group, color, styleTag, temperature, occasion, src }) {
+      const safeGroup = group || "TOP";
+      const safeColor = String(color || "").trim() || "Registered";
+      const safeStyle = String(styleTag || "").trim() || "Owned";
+      const hasUploadedImage = Boolean(src);
+      const item = {
+        id: `registered-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        name: String(name || "").trim() || `${safeColor} ${safeGroup === "OUTERWEAR" ? "Outerwear" : safeGroup.toLowerCase()}`,
+        group: safeGroup,
+        category: firstCategoryForGroup(safeGroup),
+        color: safeColor,
+        styleTag: safeStyle,
+        temperatures: expandTemperatureValue(temperature || "All"),
+        occasions: expandOccasionValue(occasion || "All"),
+        tags: ["Registered", safeStyle],
+        hex: "#c9cdd0",
+        src: src || placeholderForGroup(safeGroup, safeColor),
+        bgSize: "contain",
+        bgPos: "center",
+        bgRemoved: !hasUploadedImage,
+        assetStatus: hasUploadedImage ? "Casual photo" : "Clean asset ready"
+      };
+      state.closet.unshift(item);
+      renderCloset();
+      showToast(`${item.name} added to My Wardrobe`);
+      return item;
+    }
+
     $$("[data-group]").forEach((groupEl) => {
       groupEl.addEventListener("click", (event) => {
         const button = event.target.closest("button[data-value]");
         if (!button) return;
         setGroup(groupEl.dataset.group, button.dataset.value);
       });
+    });
+
+    $("#addWardrobeItem").addEventListener("click", () => {
+      const file = $("#wardrobeImage").files[0];
+      const register = (src) => {
+        registerWardrobeItem({
+          name: $("#wardrobeName").value,
+          group: $("#wardrobeGroup").value,
+          color: $("#wardrobeColor").value,
+          styleTag: $("#wardrobeStyle").value,
+          temperature: $("#wardrobeTemp").value,
+          occasion: $("#wardrobeOccasion").value,
+          src
+        });
+        $("#wardrobeName").value = "";
+        $("#wardrobeColor").value = "";
+        $("#wardrobeStyle").value = "";
+        $("#wardrobeImage").value = "";
+      };
+      register(file ? URL.createObjectURL(file) : "");
     });
 
     $("#uploadInput").addEventListener("change", (event) => {
@@ -3146,11 +3331,16 @@
           group,
           category,
           color: "Detected",
-          tags: ["Uploaded", "Auto sorted"],
+          styleTag: "Owned",
+          temperatures: expandTemperatureValue("All"),
+          occasions: expandOccasionValue("All"),
+          tags: ["Registered", "Auto sorted"],
           hex: colorPool[(state.closet.length + index) % colorPool.length],
           src: URL.createObjectURL(file),
           bgSize: "contain",
-          bgPos: "center"
+          bgPos: "center",
+          bgRemoved: false,
+          assetStatus: "Casual photo"
         });
       });
       renderCloset();
@@ -3176,45 +3366,6 @@
     });
 
     $("#generateBtn").addEventListener("click", () => generateLook());
-
-    $("#editToggle").addEventListener("click", () => setEditMode(!editMode));
-    $("#saveTextEdits").addEventListener("click", () => saveTextEdits());
-    $("#exportHtml").addEventListener("click", exportEditedHtml);
-
-    document.addEventListener("click", (event) => {
-      if (!editMode) return;
-      if (event.target.closest("#editorPanel")) return;
-      const editable = event.target.closest("[data-editable-text]");
-      if (!editable || !isEditableTextElement(editable)) {
-        finishTextEditing();
-        return;
-      }
-      if (editable === activeTextEditor) {
-        event.stopPropagation();
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
-      startTextEditing(editable);
-    }, true);
-
-    document.addEventListener("keydown", (event) => {
-      if (!activeTextEditor) return;
-      if (event.key === "Enter") {
-        event.preventDefault();
-        finishTextEditing();
-      }
-      if (event.key === "Escape") {
-        event.preventDefault();
-        finishTextEditing();
-      }
-    });
-
-    document.addEventListener("focusout", (event) => {
-      if (activeTextEditor && event.target === activeTextEditor) {
-        saveTextEdits(false);
-      }
-    });
 
     $$(".studio-actions .ghost").forEach((button) => {
       button.addEventListener("click", () => {
@@ -3247,7 +3398,6 @@
       styleCard.classList.toggle("flipped");
     });
 
-    markEditableText();
     renderCloset();
     renderFlatLay();
     updateGenerateState();
